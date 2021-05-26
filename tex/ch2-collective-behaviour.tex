@@ -1,0 +1,88 @@
+\documentclass[11pt,twoside]{report}
+\usepackage{preamble}
+\graphicspath{{../img/ch2/}}
+\setcounter{chapter}{1}
+
+
+\begin{document}
+
+
+\chapter{The Collective Behaviours out of Equilibrium}
+
+\epigraph{We declare that the splendour of the world has been enriched by a new beauty: the beauty of speed.}{F. T. Marinetti, \emph{Manifesto of Futurism}, (1909)}
+
+This chapter would introduce the readers the background of non-equilibrium collective behaviours. Mainly this chapter will be about the collective behaviours of \emph{animals}.
+
+\section{Facets of Collective Behaviours}
+
+\subsection{Understanding Animals}
+
+\subsection{Controlling Robots}
+
+\subsection{Active Matter Physics}
+
+
+\section{Observations and Experiments}
+
+Experimentalists observed different types of collective behaviours. In this section I will categories these phenomena according to the spatial dimensions. 
+
+\subsection{Collective Behaviours in 0D}
+
+The collective behaviours of animals can happen without space. One example is the sound of fogs.
+
+\subsection{Collective Behaviours in 1D}
+
+\subsection{Collective Behaviours in 2D}
+
+The movement of fish had interested researchers, and people had been embedding the idea from condensed--mater physics in the fish study since 1978. \cite{}
+
+\subsection{Collective Behaviours in 3D}
+
+\subsection{Collective Behaviours other Dimensions}
+
+\section{Modelling The collective Behaviours}
+
+\subsection{The Vicsek Model}
+
+\subsection{Vectorial Network Model}
+
+A well studied model is the 2D Vectorial Network Model (VNM). Sharing the same velocity updating rule with the Vicsek model, the VNM used a graph to determine the neighbours between particles, instead of determining the neighbours based on the spatial relationships. 
+
+The disordered states are composed of purely randomised vectors. The order parameter, noted as the polarisation $\Phi$, is constantly 0.
+
+\citeauthor{aldana2003} analysed the model in detail, and claimed the continues phase transition in VNM can be described by equation \cite{aldana2003},
+
+\begin{equation}
+	\Phi=\left\{\begin{array}{ll}{\left[C\left(\eta_{c}-\eta\right)\right]^{1 / 2}} & \text { for } 0<\eta_{c}-\eta \ll 1 \\ 0 & \text { for } \eta>\eta_{c}\end{array}\right.	
+\end{equation}
+
+\noindent where $\Phi$ is the polarisation order parameter, $\eta$ is the noise level, and $\eta_c$ is the critical noise value. In addition, the relationship between the polarisation ($\Phi$) and $\eta$, near the critical point, is approximated by
+
+\begin{equation}
+\Phi \approx \sqrt{
+	\frac{2(\sin \eta-2 \eta)}{(K-2) \sin \eta-(K-3) \eta}\left(1-\frac{\eta}{\sqrt{\pi K} \sin (\eta / 2)}\right)
+},
+\end{equation}
+
+\noindent where $K$ is the number of neighbours of the particles. The result matches the numerical results. This analytical expression covered the ``critical'' region of the model, and can not be extrapolated to the ordered states.
+
+Years after \citeauthor{aldana2003}'s work, \citeauthor{porfiri2014} derived the expression for the ordered states VNM, which writes as \cite{porfiri2014}
+
+\begin{equation}
+\Phi \approx 1-\eta^{2} \frac{\pi^{2}}{6} \frac{K(N-1)}{N(K-1)+1},
+\end{equation}
+
+\noindent where $N$ is the number of particles.
+
+\subsection{The Inertial Spin Model}
+
+The inertial spin model is another important variant of the Vicsek model, where the dynamic of the system is given by the following Hamiltonian.
+
+
+
+\subsection{The Active Brownian Models}
+
+\subsection{Other Agent Based Models}
+
+
+\end{document}

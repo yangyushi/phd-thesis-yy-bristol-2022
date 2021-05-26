@@ -1,0 +1,126 @@
+\usepackage{soul,color}
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{siunitx}
+\usepackage{mhchem}
+\usepackage{booktabs}
+\usepackage[autostyle=true]{csquotes}
+
+\usepackage{xeCJK}
+\usepackage{dirtree}
+\usepackage{xr}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage{epstopdf}
+\usepackage{todonotes}
+\usepackage{epigraph}
+\usepackage{gensymb}
+\usepackage{changepage}
+
+\setlength\epigraphwidth{.5\textwidth}
+
+\usepackage[style=phys,backend=biber]{biblatex}
+\DeclareFieldFormat{titlecase}{\MakeSentenceCase*{#1}}
+\bibliography{bibliography}
+
+\usepackage[toc,page]{appendix}
+
+\usepackage[caption=false]{subfig}
+\usepackage[margincaption,outercaption,wide]{sidecap}
+\sidecaptionvpos{figure}{c}
+\sidecaptionvpos{table}{c}
+\renewcommand\sidecaptionsep{1cm}
+
+\usepackage{tcolorbox}
+\tcbset{fonttitle=\bfseries}
+\newtcolorbox[auto counter]{theorem}[2][]{%
+  %colback=green!10,colframe=green!65!black,
+  fonttitle=\bfseries,%
+  title=Theorem~\thetcbcounter: #2,#1}
+
+\usepackage[symbol]{footmisc}
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+
+\usepackage{caption}
+\captionsetup[SCfigure]{width=5cm,font=footnotesize,labelfont=bf,justification=centerlast}
+\captionsetup[SCtable]{width=5cm,font=footnotesize,labelfont=bf,justification=centerlast}
+
+% Make margin notes behave like footnotes
+\usepackage{marginnote}
+\renewcommand\raggedrightmarginnote{\sloppy}
+\renewcommand\raggedleftmarginnote{\sloppy}
+\renewcommand*{\marginfont}{\footnotesize}
+\newcounter{marginnotecounter}
+\newcommand{\marginfootnote}[1]{%
+\refstepcounter{marginnotecounter}%
+\mbox{\textsuperscript{\themarginnotecounter}}%
+\marginnote{\mbox{\textsuperscript{\themarginnotecounter}} #1}%
+}
+%\newcommand{\marginfootnote}[1]{\footnotemark\marginnote{#1}}
+% Create enough space in the margin for the notes.
+\usepackage[top=2cm, bottom=2cm, outer=7cm, inner=2cm, heightrounded, marginparwidth=5cm, marginparsep=1cm]{geometry}
+
+\usepackage{titlesec}
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{4}
+
+\newcommand{\ball}{\mathcal{B}}
+\newcommand{\minkplus}{\oplus}
+\newcommand{\minkminus}{\ominus}
+\newcommand{\sherwood}{C}
+\renewcommand{\emptyset}{\varnothing}
+\renewcommand{\vec}[1]{\boldsymbol{\mathbf{#1}}}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\Tr}{Tr}
+\DeclareMathOperator{\erf}{erf}
+\DeclareMathOperator{\interior}{int}
+\usepackage{listings}
+\lstset{language=Python,keywordstyle={\bfseries \color{blue}}}
+
+\makeatletter
+\newcounter{qrr@oldeq}
+\newcounter{qrr@oldsubeq}
+\newcounter{qrr@realeq}
+\renewenvironment{subequations}{%
+  \refstepcounter{equation}%
+  \protected@edef\theparentequation{\theequation}%
+  \setcounter{parentequation}{\value{equation}}%
+  \setcounter{equation}{0}%
+  \def\theequation{\theparentequation\alph{equation}}%
+  \ignorespaces
+}{%
+  \setcounter{qrr@oldeq}{\value{parentequation}}%
+  \setcounter{qrr@oldsubeq}{\value{equation}}%
+  \setcounter{equation}{\value{parentequation}}%
+  \ignorespacesafterend
+}
+\newenvironment{subequations*}{%
+  \setcounter{qrr@realeq}{\value{equation}}%
+  \let\theparentequation\theequation%
+  \patchcmd{\theparentequation}{equation}{parentequation}{}{}%
+  \setcounter{parentequation}{\numexpr\value{qrr@oldeq}-1}%
+  \setcounter{equation}{\value{qrr@oldsubeq}}%
+  \def\theequation{\theparentequation\alph{equation}}%
+  \refstepcounter{parentequation}%
+  \ignorespaces
+}{%
+  \setcounter{qrr@oldeq}{\value{parentequation}}%
+  \setcounter{qrr@oldsubeq}{\value{equation}}%
+  \setcounter{equation}{\value{qrr@realeq}}%
+  \ignorespacesafterend
+}
+
+\newenvironment{diagram}
+{\vspace{2ex}}
+{\vspace{2ex}}
+
+\usepackage{xparse}
+
+\NewDocumentCommand{\code}{v}{%
+\texttt{#1}%
+}
+
+
+\makeatother

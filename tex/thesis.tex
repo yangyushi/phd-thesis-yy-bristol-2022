@@ -1,0 +1,32 @@
+\documentclass[11pt,twoside]{report}
+\usepackage{preamble}
+\usepackage{standalone}
+\graphicspath{
+	{../img/ch1/}
+	{../img/ch2/}
+	{../img/ch3/}
+	{../img/ch4/}
+	{../img/ch5/}
+	{../img/ch6/}
+}
+
+\DeclareRobustCommand{\wordcount}{\InputIfFileExists{thesis.wordcountsum}}
+\definecolor{bristolred}{RGB}{191,47,56}
+
+
+\begin{document}
+
+\tableofcontents
+
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\include{ch1-introduction}
+\include{ch2-collective-behaviour}
+\include{ch3-fish-track-2d}
+\include{ch4-fish-track-3d}
+\include{ch5-fish-models}
+\include{ch6-fish-applications}
+\include{ch7-conclusions}
+
+\end{document}

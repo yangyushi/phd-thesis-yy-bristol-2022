@@ -1,4 +1,6 @@
 .*
 !.gitignore
-tex/*.pdf
-tex/*.aux
+meta
+tex/*
+!tex/*.tex
+!tex/*.bib

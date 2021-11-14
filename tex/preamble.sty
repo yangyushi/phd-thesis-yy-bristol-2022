@@ -17,13 +17,16 @@
 \usepackage{epigraph}
 \usepackage{gensymb}
 \usepackage{changepage}
+\usepackage{algpseudocode}
+\usepackage{algorithm}
 
 \setlength\epigraphwidth{.5\textwidth}
 
 \usepackage[style=phys,backend=biber]{biblatex}
-\DeclareFieldFormat{titlecase}{\MakeSentenceCase*{#1}}
-\bibliography{bibliography}
+\addbibresource[datatype=bibtex]{bibliography.bib} 
+%\bibliography{bibliography}
 
+\DeclareFieldFormat{titlecase}{\MakeSentenceCase*{#1}}
 \usepackage[toc,page]{appendix}
 
 \usepackage[caption=false]{subfig}
@@ -33,11 +36,6 @@
 \renewcommand\sidecaptionsep{1cm}
 
 \usepackage{tcolorbox}
-\tcbset{fonttitle=\bfseries}
-\newtcolorbox[auto counter]{theorem}[2][]{%
-  %colback=green!10,colframe=green!65!black,
-  fonttitle=\bfseries,%
-  title=Theorem~\thetcbcounter: #2,#1}
 
 \usepackage[symbol]{footmisc}
 \renewcommand{\thefootnote}{\fnsymbol{footnote}}

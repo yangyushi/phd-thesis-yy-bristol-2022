@@ -1,13 +1,36 @@
 \documentclass[11pt,twoside]{report}
 \usepackage{preamble}
-\graphicspath{{../img/}}
+\graphicspath{{../img/ch1/}}
 \setcounter{chapter}{0}
 
 
 \begin{document}
-
 \chapter{Introduction}
 
-\section{General Introduction}
+This thesis will discuss the behaviour of zebrafish from the perspective of soft--matter physicists. It is expected that we can get some general insights about animals, by analysing their trajectories. Operationally, it means to tabulate the location of different individuals at different time points, and then analyse the shape of the line segments connecting all these points. One can imagine that most people's trajectory will be centred around workspace and home, connected by their commute routes. And a large group of people sharing similar trajectories might indicate the presence of a parade.
+
+By doing so, we discarded all the details of each individual, and this is exactly the point. The physicists propose \emph{coarse--grained} models that deliberately ignore the details, in order to focus on the phenomena on larger scales. For instance, we know the different types of liquid flow differently, with different viscosities. The concept of viscosity let us to grasp the essence of liquid, rather than the detailed information of the constituting molecules. Formally, we say that we ignore the microscopic detail (the shape and chemistry of the molecules), and focus on the macroscopic behaviour (the viscosity).
+
+However, there is one fundamental difference between the living animal and moving atoms/molecules. In daily life, most atomic/molecular systems were in \emph{equilibrium}, being in a state that ``nothing happens''. By definition, the equilibrium system will enter and leave any microscopic state at the same rate, maintaining the same macroscopic behaviour constantly. And this situation is very different when we think about animals, where the individuals were ageing, the territories were changing, and the gross domestic productivity (GDP) increasing.
+
+
+% Separation of time scale
+Luckily, physicists have a powerful tool to attack the problem. The tool is \emph{time--scale separation}, which treat fast phenomena differently from their slow counterparts \cite{gunawardena2014}.
+
+% Separation of time scale
+
+ The idea comes from a subbranch of soft--matter physics, named \emph{active matter}, which focuses on the self--propelling non--equilibrium systems\marginfootnote{Not all non--equilibrium systems are called active matter. An example is the driven system, where the system is exposed to applied strain.}.
+Here comes the essence of idea. Ignoring some biological details, we can treat individual animals as moving agents with simple interaction rules. And this assumption is backed up by computer simulations of idealised models, as these simulations reproduced natural collective behaviour of animals.
+
+\section{Thesis Structure}
+
+The ideas of active matter and the collective behaviour of animals will be introduced in chapter \ref{chapter:collective_behaviour}.
+
+
+Analysing the behaviour of fish turns out to be a technical and complicated task, if one wants to study them in a three dimensional environment. Consequently, building the system that records the 3D movements of fish became a big part of this study, and I will introduce the technology in two steps. Firstly the easier setup to capture the 2D movements of the zebrafish will be discussed in chapter \ref{chapter:fish_2d}, along with necessary data processing methods. The relevant experimental results will also be presented in this chapter. Then we shall move on to setting up the 3D tracking system, discussed in detail in chapter \ref{chapter:fish_3d}. Specifically, the ideas in the multiple view geometry will be introduced, which enables the 3D reconstruction of the fish locations. The experimental findings of 3D tracking will also be discussed in chapter \ref{chapter:fish_3d}.
+
+A further understanding of the fish can be achieved by modelling their behaviour. And we know the model is good if the behaviour of the model matches the experimental results. Different models will be introduced and discussed in chapter \ref{chapter:fish_model}. The experimental results from chapter \ref{chapter:fish_2d} and \ref{chapter:fish_3d} will be compared with different models.
+
+Finally, we will advance to a more biological topic and discuss the behaviour of zebrafish after genetic modification. In chapter \ref{chapter:fish_mutation}, the collective behaviour of the mutant fish will be reported and compared against the normal, wildtype zebrafish. The insight into the mutation fish is only available through the behavioural experiments. And the result in this chapter is the evidence, that active--matter physics can offer new biological knowledge about animals. In other words, this thesis is \emph{useful}.
 
 \end{document}

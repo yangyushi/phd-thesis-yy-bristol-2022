@@ -4,3 +4,5 @@ meta
 tex/*
 !tex/*.tex
 !tex/*.bib
+**/__pycache__
+**/tags

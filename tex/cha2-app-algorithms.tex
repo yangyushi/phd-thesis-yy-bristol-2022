@@ -1,7 +1,7 @@
 \documentclass[11pt,twoside]{report}
 \usepackage{preamble}
-\graphicspath{{../img/ch8/}}
-\setcounter{chapter}{8}
+\graphicspath{{../img/cha2/}}
+\setcounter{chapter}{2}
 \renewcommand{\chaptername}{Appendix}
 \renewcommand{\thechapter}{\Alph{chapter}}
 
@@ -20,8 +20,7 @@ In the first section, the overview of current landscape of programming will be i
 
 \section{Programming in the 2020s}
 
-\section{Effective Way to Organise the Code}
-
+\section{Organise the Code}
 
 To the best of my knowledge, there is no framework nor libraries\marginfootnote{The term ``library'' refers to a collection of reusable code, which can be called by the user. The term ``framework'' refers to a collection of libraries and other utilities, which functions with the input of the user. The example of a library is ``Numpy'', which provides efficient n--dimensional array operations. The example of a framework is the Large-scale Atomic/Molecular Massively Parallel Simulator (LAMMPS), which read the user input file and perform molecular dynamic simulations.}
 for the reconstruction of 3D trajectories from synchronised multiple--view videos at the time of this research (from 2018 to 2022). Therefore, I have to write all the analysing code from scratch, which turned out to be a real challenge in terms of software engineering. Developing the software is difficult because the 3D reconstruction process are composed of many small tasks, for instance the 2D feature selection and the camera calibration. New features and algorithms were frequently added to cope with different tasks, which would inevitably increase the complexity of the framework/library. If not being careful with the complexity, the code may eventually end up being not maintainable, forbidding its further improvement.
@@ -95,73 +94,129 @@ enlarge top by=0.5em,
 \noindent With this clear framework structure and version control softwares (\code{git} and GitHub), I managed to maintain the fish tracking code through out the 4--year project, working seamlessly on both my personal laptop and HPC clusters.
 
 
-\section{Some Useful Algorithms}
+\section{Useful Algorithms}
+
+\begin{algorithm}
+\caption{General Description of MC simulation}
+\label{alg:monte-carlo}
+\begin{algorithmic}
+
+\State System $\gets$ initial state
+\Repeat
+	\For {$i \in \{0 \dots n\}$}
+		\State change state of agent $i$
+	\EndFor
+\Until {System is in steady state} \\
+
+\State Result $\gets$ \{ \}
+\Repeat
+	\State Monte-Carlo Sweep
+	\State Calculate Q, and put Q in Result
+\Until {Statistic is good enough}
+\State \textbf{return} Result
+
+\end{algorithmic}
+\end{algorithm}
+
+
+
+\begin{algorithm}
+\label{alg:graph-reject}
+\begin{algorithmic}
+
+\Procedure{rand-graph-cgvnm}{k, n}
+\State succeed $\gets$ false
+\Repeat
+	\State (Nodes, Edges) $\gets$ rand-graph-vnm(k, n)
+	\State succeed $\gets$ Edges satisfy all constrains
+\Until succeed
+\State \textbf{return} (Nodes, Edges)
+\EndProcedure
+
+\end{algorithmic}
+\end{algorithm}
+
+
+
+
+\begin{algorithm}
+\caption{Generating graph for vectorial network model}
+\label{alg:graph-vnm}
+\begin{algorithmic}
+	\Procedure{rand-graph-vnm}{k, n}
+	\State Nodes $\gets \{0 \dots n-1 \}$
+	\State Edges $\gets \{\}$
+	\For {$i_1 \gets 1, n$}
+		\State Selection $\gets$ \{\}
+		\Repeat
+			\State $i_2 \gets$  randomly choose from Nodes
+			\If {$i_2$ not in Selection}
+				\State put $i_2$ in Selection
+				\State put $(i_1, i_2)$ in Edges
+			\EndIf
+		\Until size(Selection) = k
+	\EndFor
+	\State \textbf{return} (Nodes, Edges)
+	\EndProcedure
+\end{algorithmic}
+\end{algorithm}	
+
 
 
 The algorithm to rotate one 3D vector to the direction of another 3D vector is introduced in the following algorithm. This rotation is important to generate the scalar noise in the Vicsek model and the Couzin model.
 
-\begin{tcolorbox}[
-title=Algorithm to Rotate a 3D vector,
-enlarge bottom by=0.5em,
-enlarge top by=0.5em,
-]
 
+\begin{algorithm}
+\caption{Rotating a vector in $\mathbb{R}^3$}
 \label{alg:geometry-rotate}
 \begin{algorithmic}
-
-\Procedure{rotate-vector}{$\mathbf{v}_1 \in \mathbb{R}^3 $, $\mathbf{v}_2 \in \mathbb{R}^3 $} \marginfootnote{The term ``$\mathbf{v}_1 \in \mathbb{R}^3$'' indicates the shape of the array \texttt{v1}. Using the \texttt{numpy} library, we should expect the output of \texttt{v1.shape} to be \texttt{(3,)}.}
-\State $\mathbf{u} \in \mathbb{R}^3 \gets$ vector project of $\mathbf{v}_2$ on $\mathbf{v}_1$ 
-\State $\mathbf{v} \in \mathbb{R}^3 \gets \mathbf{v}_2 - \mathbf{u}$  \Comment{vector rejection of $\mathbf{v}_2$ on $\mathbf{v}_1$}
-\State $\mathbf{w} \in \mathbb{R}^3 \gets \mathbf{u} \times \mathbf{v}$
-\State $\theta \gets 
-\arccos( \frac{\mathbf{v}_1 \cdot \mathbf{v}_2} { |\mathbf{v}_1| |\mathbf{v}_2|})
-$ \Comment{The angle between $\mathbf{v}_2$ and $\mathbf{v}_1$ }
-\State $\mathbf{u} \gets \mathbf{u} / |\mathbf{u}|$
-\State $\mathbf{v} \gets \mathbf{v} / |\mathbf{v}|$ \\
-\State $\mathbf{F} \in \mathbb{R}^{3 \times 3} \gets
-(\mathbf{u}^T; \mathbf{v}^T; \mathbf{w}^T)
-$ \Comment{New orthogonal basis} \\
-\State $
-\mathbf{G} \gets \left(
-\begin{matrix}
-	\cos \theta & -\sin \theta & 0 \\
-	\sin \theta & -\cos \theta & 0 \\
-	0 & 0 & 1
-\end{matrix}
-\right)
-$\\
-\State $\mathbf{R} \in \mathbb{R}^{3 \times 3} \gets
-\mathbf{F}^{-1} \cdot \mathbf{G} \cdot \mathbf{F}
-$
-\State \textbf{return} $\mathbf{R}$
-\EndProcedure
+	
+	\Procedure{rotate-vector}{$\mathbf{v}_1 \in \mathbb{R}^3 $, $\mathbf{v}_2 \in \mathbb{R}^3 $} \marginfootnote{The term ``$\mathbf{v}_1 \in \mathbb{R}^3$'' indicates the shape of the array \texttt{v1}. Using the \texttt{numpy} library, we should expect the output of \texttt{v1.shape} to be \texttt{(3,)}.}
+	\State $\mathbf{u} \in \mathbb{R}^3 \gets$ vector project of $\mathbf{v}_2$ on $\mathbf{v}_1$ 
+	\State $\mathbf{v} \in \mathbb{R}^3 \gets \mathbf{v}_2 - \mathbf{u}$  \Comment{vector rejection of $\mathbf{v}_2$ on $\mathbf{v}_1$}
+	\State $\mathbf{w} \in \mathbb{R}^3 \gets \mathbf{u} \times \mathbf{v}$
+	\State $\theta \gets 
+	\arccos( \frac{\mathbf{v}_1 \cdot \mathbf{v}_2} { |\mathbf{v}_1| |\mathbf{v}_2|})
+	$ \Comment{The angle between $\mathbf{v}_2$ and $\mathbf{v}_1$ }
+	\State $\mathbf{u} \gets \mathbf{u} / |\mathbf{u}|$
+	\State $\mathbf{v} \gets \mathbf{v} / |\mathbf{v}|$ \\
+	\State $\mathbf{F} \in \mathbb{R}^{3 \times 3} \gets
+	(\mathbf{u}^T; \mathbf{v}^T; \mathbf{w}^T)
+	$ \Comment{New orthogonal basis} \\
+	\State $
+	\mathbf{G} \gets \left(
+	\begin{matrix}
+		\cos \theta & -\sin \theta & 0 \\
+		\sin \theta & -\cos \theta & 0 \\
+		0 & 0 & 1
+	\end{matrix}
+	\right)
+	$\\
+	\State $\mathbf{R} \in \mathbb{R}^{3 \times 3} \gets
+	\mathbf{F}^{-1} \cdot \mathbf{G} \cdot \mathbf{F}
+	$
+	\State \textbf{return} $\mathbf{R}$
+	\EndProcedure
 \end{algorithmic}
-
-\end{tcolorbox}
-
+\end{algorithm}
 
 
 
 The following algorithm will generate random 3D points distributed uniformly on a spherical cap. This algorithm will be used when randomly rotating the orientations of agents in the Vicsek model and Couzin model.
 
 
-
-\begin{tcolorbox}[
-title=Algorithm to Generate Uniform Points on a Spherical Cap,
-enlarge bottom by=0.5em,
-enlarge top by=0.5em,
-]
-
+\begin{algorithm}
+\caption{Generating Uniform Points on a Spherical Cap}
 \label{alg:geometry-rand-cap}
 \begin{algorithmic}
-
-\Procedure{rand-vector-on-cap}{}
-
-\State \textbf{return} $\mathbf{p}$
-\EndProcedure
+	
+	\Procedure{rand-vector-on-cap}{}
+	
+	\State \textbf{return} $\mathbf{p}$
+	\EndProcedure
+	
 \end{algorithmic}
-
-\end{tcolorbox}
+\end{algorithm}
 
 
 
@@ -169,50 +224,43 @@ The following algorithm will calculate the path of the light travelling into wat
 
 
 
-\begin{tcolorbox}[
-title=Algorithm to Calculate the Direction of Light after Refraction,
-enlarge bottom by=0.5em,
-enlarge top by=0.5em,
-]
-
+\begin{algorithm}
+\caption{Refractive Projection}
 \label{alg:geometry-rand-cap}
 \begin{algorithmic}
 
-\Procedure{refractive-direction}{$\mathbf{u} \in \mathbb{R}^3$, $z \in \mathbb{R}$}
-
-\State \textbf{return} $\mathbf{p}$
-\EndProcedure
+	\Procedure{refractive-direction}{$\mathbf{u} \in \mathbb{R}^3$, $z \in \mathbb{R}$}
+	
+	\State \textbf{return} $\mathbf{p}$
+	\EndProcedure
+	
 \end{algorithmic}
+\end{algorithm}
 
-\end{tcolorbox}
+The following algorithm offered a direct way to sample points distributed uniformly inside a fish tank, whose goemtry is described by $z = c r^2$. This direct sample method is useful for generating initial positions of agents inside the tank, at the beginning of the simulation.
 
-The following algorihm offered a direct way to sample points distributed uniformly inside a fish tank, whose goemtry is described by $z = c r^2$. This direct sample method is useful for generating initial positions of agents inside the tank, at the beginning of the simulation.
-
-\begin{tcolorbox}[
-title=Algorithm to Sample Uniform Points in Fish Tank,
-enlarge bottom by=0.5em,
-enlarge top by=0.5em,
-]
+\begin{algorithm}
+\caption{Algorithm to Sample Uniform Points in Fish Tank}
 
 \label{alg:geometry-rand-cap}
 \begin{algorithmic}
-\Procedure{sample-direct-fish-tank}{c, h}
-
-\State $Z \gets$ rand(0, 1)
-\State $R \gets $ rand(0, 1)
-\State $\theta \gets $ rand($-\pi$, $\pi$)
-
-\State $z \gets h \sqrt{Z}$ 
-\State $r \gets \sqrt{R} \sqrt{z / c}$
-
-\State $x \gets r \cos(\theta)$
-\State $y \gets r \sin(\theta)$
-
-\State \textbf{return} $(x, y, z)$
-
-\EndProcedure
+	\Procedure{sample-direct-fish-tank}{c, h}
+	
+	\State $Z \gets$ rand(0, 1)
+	\State $R \gets $ rand(0, 1)
+	\State $\theta \gets $ rand($-\pi$, $\pi$)
+	
+	\State $z \gets h \sqrt{Z}$ 
+	\State $r \gets \sqrt{R} \sqrt{z / c}$
+	
+	\State $x \gets r \cos(\theta)$
+	\State $y \gets r \sin(\theta)$
+	
+	\State \textbf{return} $(x, y, z)$
+	
+	\EndProcedure
 \end{algorithmic}
-\end{tcolorbox}
+\end{algorithm}
 
 
 \section{Useful Machine Learning Ideas}

@@ -1,7 +1,7 @@
 \documentclass[11pt,twoside]{report}
 \usepackage{preamble}
-\graphicspath{{../img/ch9/}}
-\setcounter{chapter}{9}
+\graphicspath{{../img/cha1/}}
+\setcounter{chapter}{1}
 \renewcommand{\chaptername}{Appendix}
 \renewcommand{\thechapter}{\Alph{chapter}}
 
@@ -36,7 +36,7 @@ I will begin the introduction with the definition of homogeneous coordinates, wh
  
  \begin{SCfigure}
   \includegraphics[width=\linewidth,outer]{ideal-point.jpg}
-  \caption{A photo taken at the harbourside in Bristol, UK. The ideal point is labeled as the interception of parallel lines.}
+  \caption[An ideal point in Bristol harbourside]{A photo taken at the harbourside in Bristol, UK. The ideal point is labeled as the interception of parallel lines.}
   \label{fig:ideal-point}
 \end{SCfigure}
  
@@ -198,7 +198,7 @@ The important fact about projective transformation is that the collinearity is p
 
 \begin{SCfigure}
   \includegraphics[width=\linewidth,outer]{camera-model}
-  \caption{The pinhole camera model. (a) the projection transformation of the pinhole model, where the object projects virtually to the image plane and the camera sensor. (b) the coordination system centred defined by the image plane and camera centre. The point $(X, Y, Z)$ would be projected onto the image plane, with coordinates $(x, y, f)$.}
+  \caption[The pinhole camera model]{The pinhole camera model. (a) the projection transformation of the pinhole model, where the object projects virtually to the image plane and the camera sensor. (b) the coordination system centred defined by the image plane and camera centre. The point $(X, Y, Z)$ would be projected onto the image plane, with coordinates $(x, y, f)$.}
   \label{fig:camera_model}
 \end{SCfigure}
 
@@ -291,7 +291,7 @@ $$
 
 \begin{SCfigure}
   \includegraphics[width=0.6\linewidth,outer]{camera-basis-change}
-  \caption{The relative orientation and translation between two cameras. The coordinate of the centre of camera 2, expressed in the basis attached to camera 1, is $-\mathbf{R}^T\mathbf{t}$. Notice the same point has the coordinate of $\mathbf{0}$ in the basis attached to camera 2.}
+  \caption[Relative orientation of cameras]{The relative orientation and translation between two cameras. The coordinate of the centre of camera 2, expressed in the basis attached to camera 1, is $-\mathbf{R}^T\mathbf{t}$. Notice the same point has the coordinate of $\mathbf{0}$ in the basis attached to camera 2.}
   \label{fig:camera_basis}
 \end{SCfigure}
 
@@ -335,7 +335,7 @@ The workflow used in this thesis is as follows. Firstly I obtained the distortio
 
 \begin{SCfigure}
   \includegraphics[width=1\linewidth,outer]{camera-calib-ext}
-  \caption{Different ways to get the location ($\bf{T}$) and orientation ($\bf{R}$) of cameras using a chessboard. (a) The cameras obtain their individual $\bf{T}$ and $\bf{R}$ from the chessboard. (b) The chessboard offered the $\bf{T}$ and $\bf{R}$ of camera 1, as well as the essential matrices, $\bf{E}_{21}$ and $\bf{E}_{32}$. The relative translation and orientation of two cameras can be recovered from the essential matrices. (c) The chessboard offered the $\bf{T}$ and $\bf{R}$ of camera 1, as well as the trifocal tensor ($\bf{T}_{123}$). The tensor contain the information about the relative translation and orientation for all cameras.}
+  \caption[Determining the extrinsic parameters of a camera]{Different ways to get the location ($\bf{T}$) and orientation ($\bf{R}$) of cameras using a chessboard. (a) The cameras obtain their individual $\bf{T}$ and $\bf{R}$ from the chessboard. (b) The chessboard offered the $\bf{T}$ and $\bf{R}$ of camera 1, as well as the essential matrices, $\bf{E}_{21}$ and $\bf{E}_{32}$. The relative translation and orientation of two cameras can be recovered from the essential matrices. (c) The chessboard offered the $\bf{T}$ and $\bf{R}$ of camera 1, as well as the trifocal tensor ($\bf{T}_{123}$). The tensor contain the information about the relative translation and orientation for all cameras.}
   \label{fig:calib-ext}
 \end{SCfigure}
 
@@ -349,7 +349,7 @@ In addition, the calibration board served as the anchor point, specifying the or
 
 \section{Tutorial: Refining Calibration with Geometry}
 
-The calibration method using the chessboard is convenient and easy. However, the practical results are not ideal. The overall performance of the calibration can be assessed by reconstructing the water--air interface in the image. The interface conics were highlighted in Fig.\ \ref{fig:conic}, and these conics corresponds to a 3D circle at the plane where $Z=0$. The 3D circle can be reconstructed by the 2D conics, following the projective transformation
+The calibration method using the chessboard is convenient and easy. However, the practical results are not ideal. The overall performance of the calibration can be assessed by reconstructing the water--air interface in the image. The interface conics were highlighted in Fig.~\ref{fig:conic}, and these conics corresponds to a 3D circle at the plane where $Z=0$. The 3D circle can be reconstructed by the 2D conics, following the projective transformation
 
 $$
 \mathbf{Q} = \mathbf{P}^T \mathbf{C} \mathbf{P}
@@ -364,12 +364,33 @@ $$
 \end{aligned}
 $$
 
-\noindent and $\boldsymbol{\pi}_z$ represents the $Z=0$ plane. The reconstructed circle.
+\noindent and $\boldsymbol{\pi}_z$ represents the $Z=0$ plane. The reconstructed circle can be represented by another conic, written as
 
+$$
+,
+$$
+
+\noindent and the coefficients can be transformed to the geometric coefficients: $x_c, y_c, a, b, \theta$, from which the conic is represented as,
+
+$$
+(x - xc)^2 / a + (y - yc)^2 / b = 0.
+$$
+
+The knowledge of the circle is not enough to uniquely determine the extrinsic parameters of one camera. Since 6 numbers (translation + rotation in 3D) are required to determine the camera pose, but one constrain is provided ($a = b$). For a three camera system, the conic will also provide 9 extra constrains, where
+
+$$
+\begin{aligned}
+x_c^1 &= x_c^2 = x_c^3,\\
+y_c^1 &= y_c^2 = y_c^3,\\
+a^1 &= a^2 = a^3.
+\end{aligned}
+$$
+
+\noindent and we can enforce these extra constrains during the camera calibration process, in order to improve the final estimation of the extrinsic parameter.
 
 \begin{SCfigure}
   \includegraphics[width=1\linewidth,outer]{conic-3d}
-  \caption{The conic features measured from the undistorted image. These feature points were fitted to get the conic matrices ($\mathbf{C}_{j}^{i}$ for the $j$th circle in camera $i$).}
+  \caption[Conic optimisation for the camera calibration]{The conic features measured from the undistorted image. These feature points were fitted to get the conic matrices ($\mathbf{C}_{j}^{i}$ for the $j$th circle in camera $i$).}
   \label{fig:conic}
 \end{SCfigure}
 

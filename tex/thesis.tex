@@ -8,30 +8,95 @@
 	{../img/ch4/}
 	{../img/ch5/}
 	{../img/ch6/}
+	{../img/ch7/}
+	{../img/cha1/}
+	{../img/cha2/}
 }
 
-\DeclareRobustCommand{\wordcount}{\InputIfFileExists{thesis.wordcountsum}}
+\DeclareRobustCommand{\wordcount}
+{\InputIfFileExists{thesis.wordcountsum}{}{}
+}
+
 \definecolor{bristolred}{RGB}{191,47,56}
 
 
 \begin{document}
 
-\tableofcontents
+\newgeometry{margin=1in}
+
+%\maketitle
+\thispagestyle{empty}
+\begin{center}
+  \begin{minipage}{0.8\linewidth}
+    \centering
+    \vspace{3cm}
+    {\Large \sc University of Bristol \par}
+    \vspace{2cm}
+    {\Large \sc Doctoral Thesis \par}
+    \vspace{1cm}
+    \rule{\textwidth}{0.4pt} \par
+    {\LARGE \sc \color{bristolred} 
+    Observing, Analysing, Modelling, and even Changing the Behaviour of Zebrafish
+    \par}
+    \rule{\textwidth}{0.4pt} \par
+
+    \vspace{2cm}
+    {\large \it Author:}
+    \hfill
+    {\large \it Supervisor:} \\
+    {\sc \large \href{mailto:yushi.yang@bristol.ac.uk}{Yushi~Yang}}
+    \hfill
+    {\sc \large Dr.~Thomas~Machon\par}
+    \vspace{3.5cm}
+   {\large \it A dissertation submitted to the University of Bristol in accordance with the requirements for award of the degree of Doctor of Philosophy in the Faculty of Science, H.\ H.\ Wills Physics Laboratory. \par}
+    \vspace{1em}
+    {\large March 2022 \par}
+  \end{minipage}
+  \mbox{}
+  \vfill
+  \begin{minipage}{0.8\linewidth}
+    \raggedleft
+    {\large \wordcount}
+  \end{minipage}
+\end{center}
+
+\pagenumbering{roman}
+
+\cleardoublepage\include{ch0-open}
+
+\cleardoublepage\tableofcontents
+
+\cleardoublepage\listoffigures
+\addcontentsline{toc}{chapter}{List of figures}
+
+\cleardoublepage\listoftables
+\addcontentsline{toc}{chapter}{List of tables}
+
+\cleardoublepage\listofalgorithms
+\addtocontents{loa}{\def\string\figurename{Algorithm}}
+
+\cleardoublepage
+\restoregeometry
+
+%\begin{spacing}{1.25}
+
+\pagenumbering{arabic}
 
 \pagenumbering{arabic}
 \setcounter{page}{1}%
 
 \include{ch1-introduction}
 \include{ch2-collective-behaviour}
-\include{ch3-fish-track-2d}
-\include{ch4-fish-track-3d}
-\include{ch5-fish-models}
-\include{ch6-fish-applications}
-\include{ch7-conclusions}
+\include{ch3-observe-2d}
+\include{ch4-observe-3d}
+\include{ch5-analysis}
+\include{ch6-model}
+\include{ch7-mutation}
+\include{ch8-conclusions}
 
 \begin{appendices}
-  \include{ch8-app-algorithms}
-  \include{ch9-multi-view-geometry}
+  \include{cha1-multi-view-geometry}
+  \include{cha2-app-algorithms}
 \end{appendices}
 
 \printbibliography

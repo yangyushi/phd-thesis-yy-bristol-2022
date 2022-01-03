@@ -1,7 +1,7 @@
 \documentclass[11pt,twoside]{report}
 \usepackage{preamble}
-\graphicspath{{../img/ch5/}}
-\setcounter{chapter}{5}
+\graphicspath{{../img/ch7/}}
+\setcounter{chapter}{7}
 
 \begin{document}
 
@@ -9,7 +9,8 @@
 \label{chapter:fish_model}
 
 
-\epigraph{å­éé­\; å®ç¥é­ä¹æ¨\\[1ex]You are not a fish, how could you know about the happiness of the fish}{èå­}
+\epigraph{鱼相忘乎江湖~人相忘乎道术}
+{庄周, \emph{南华经}}
 
 This chapter will introduce some computer simulation work for reproducing the observed experimental results. Computer simulation, altogether with theoretical calculation, experimental observation and democratic voting\marginfootnote{Jokingly, the existence of liquid--solid phase transition were put on a vote by George Uhlenbeck on a meeting in 1957 \cite{battimelli2018}.}, manifested itself as a powerful tool to answer questions about the nature of complex systems.
 
@@ -26,88 +27,58 @@ Thinking about the animals exhibiting collective behaviour, the popular idea (in
 
 \section{Simulation Methods}
 
-\subsection{Monte--Carlo Simulation}
+I used the idea of brownian dynamic (BD) simulation to simulate the behaviour of fish. By carrying out the simulation, we aim at obtaining behaviour quantities ($Q$), like the ones introduced in Table~\ref{tab:behaviour-quantities}). The algorithm of the BD simulation is summarised in Algorithm~\ref{alg:bd}.
 
-\begin{tcolorbox}[
-title=Monte--Carlo Sweep,
-enlarge bottom by=0.5em,
-enlarge top by=0.5em,
-]
-\label{alg:graph-vnm}
+
+\begin{algorithm}
+\caption{The Brownian dynamic simulation}
+\label{alg:bd}
 \begin{algorithmic}
-\Procedure{mc-sweep}{}
-\For {$i \in \{0 \dots n\}$}
-\State change state of agent $i$
-\EndFor
-\EndProcedure
+	\State System $\gets$ initial state
+	\Repeat
+		\State advance $\delta t$
+	\Until {System is in steady state} \\
+	
+	\State Result $\gets$ \{ \}
+	\Repeat
+		\State advance $\delta t$
+		\State Calculate Q, and put Q in Result
+	\Until {Statistic is good enough}
+	\State \textbf{return} Result
 \end{algorithmic}
-\end{tcolorbox}
+\end{algorithm}
 
+\noindent One important part of the simulating non-equilibrium system is to advance the system for long enough time, so that the system reach the steady state, so that the result is repeatable. The steady state is required because of the stochastic nature of the model, making the the quantity of interest $Q(t)$ to be stochastic process, fluctuating with time. In the steady state, the $Q(t)$ will satisfy the following condition,
 
-\begin{tcolorbox}[
-title=General Description of MC simulation,
-enlarge bottom by=0.5em,
-enlarge top by=0.5em,
-]
-\label{alg:graph-vnm}
-\begin{algorithmic}
-\Procedure{mc-sim}{}
-\State System $\gets$ initial state
-\Repeat
-	\State Monte-Carlo Sweep
-\Until {System is stable} \\
+$$
+\begin{aligned}
+	E[Q(t)] &= \mu_Q, \\
+	E[ Q(t_1) Q(t_2) ] &= E[ Q(0) Q(t_2 - t_1) ].
+\end{aligned}
+$$
 
-\State Result $\gets$ \{ \}
-\Repeat
-	\State Monte-Carlo Sweep
-	\State Calculate Q, and put Q in Result
-\Until {Statistic is good enough}
-\State \textbf{return} Result
-\EndProcedure
-\end{algorithmic}
-\end{tcolorbox}
+\noindent And they mean the average value, and the auto-correlation function of $Q$ will not change over time. Practically, we can measure the relaxation time ($\tau$) of $Q$, and wait for tens or hundreds $\tau$ to reach the steady state.
 
-
-\subsection{Brownian Dynamic Simulation}
-
-
-\begin{tcolorbox}[
-title=General Description of BD simulation,
-enlarge bottom by=0.5em,
-enlarge top by=0.5em,
-]
-\label{alg:graph-vnm}
-\begin{algorithmic}
-\Procedure{bd-sim}{}
-\State System $\gets$ initial state
-\Repeat
-	\State advance $\delta t$
-\Until {System is stable} \\
-
-\State Result $\gets$ \{ \}
-\Repeat
-	\State advance $\delta t$
-	\State Calculate Q, and put Q in Result
-\Until {Statistic is good enough}
-\State \textbf{return} Result
-\EndProcedure
-\end{algorithmic}
-\end{tcolorbox}
-
-Notice the structure of BD simulation and MC simulation is the same. The only difference comes from the way to change the state of the system. Hence, for abstracted model like the voter model I applied the MC procedure while for realistic model I would apply the BD procedure.
-
-\subsection{Molecular Dynamic and other Methods}
+Notice the structure of BD simulation is very similar to that of the Monte-Carlo simulation (Algorithm~\ref{alg:monte-carlo}). The only difference comes from the way to change the state of the system. For the simulation of simple liquid, like a collection of particles with Lennard-Jones interaction potentials, the difference between BD and MC is the way temperature/noise being implemented. In the BD simulation, the temperature is incorporated as random movement in the equation of motion.
 
 It is worth mentioning other simulation methods. A technique similar to the BD simulation is the molecular dynamic simulation. % (Some words about LAMMPS)
 Another elegant method is the event--driven molecular dynamic simulation, which is widely used to simulate the idealised hard sphere system, where the agents have different diameters and they can not overlap with each other. The key part of the event--driven MD simulation is to determine the configuration when different collision events happen. This method is also used to simulate active matter system with different interactions at different length scales, for instance in.
 
-\section{Ordering on a Graph: Voters and Vectorial Networks}
+
+\section{The Order of the Dynamic}
+
+The movement of a group of fish can exhibit two visually different states. The fish can form \emph{ordered} movement, sharing the same moving direction. Alternatively, the fish can form random movement, where the fish have different moving directions.\marginfootnote{The adjective \emph{random} in this thesis describes the fact that different fish do not share the same moving direction.}
+The switch between random movement and ordered movement is observed for a group of fish in Chapter~\ref{chapter:fish_3d}, and I will try to simulate such change between the two states in this section.
+
+Intuitively, the ordered movement is a special state comparing with the random counterpart -- the animals have to somehow make something happen, to effectively align with each and share the same moving direction. This process, where the velocities of individuals in a group align, is termed as ``the ordering of the dynamic'', and abbreviated as ``the ordering'' in this chapter.
+
+\subsection{Ordering on a Graph}
 
 % introduce the very limited graph theory (that I happen to know!) here.
 
 The very interesting ordering phenomena in the nature are often treated as the results of interactions between different agents. For instance, the coordinated movement of birds can rise from the velocity alignment between birds that are close to each other. More abstractly, the human decision are also affected by friends, and such interaction leads to collective decision making.
 
-\subsection{Introduction to the Graph}
+\subsubsection*{Introduction to the Graph}
 
 The popular tool to summarise the interaction of different agents is the \emph{graph}. The graph is.
 
@@ -115,40 +86,13 @@ Here we will focus on a typical type of graph in which each node will have a fix
 The graph in which every node has a degree $k$ is called \emph{$k$--regular} graph. However, in a common context the regular graph is implecitly \emph{simple}. A simple graph is a undirected graph with no self--loop nor multiple links between two nodes.
 } Figure \ref{fig:graph-vnm} shows some example of these graphs, altogether with their matrix representations. The graphs are directional, and the edge from node $i$ to node $j$ specifies the alignment interaction, in which agent $i$ will align with agent $j$ (but not the other way around).
 
-In order to mimic the evolution of the relation between agents, the graph is drawn uniformly from all valid possibilities during the simulation. That is to say, agent $i$ will have different neighbours during the simulation. There is a simple rejection--free method to generate such graph, and this method is presented in the following algorithm.
+In order to mimic the evolution of the relation between agents, the graph is drawn uniformly from all valid possibilities during the simulation. That is to say, agent $i$ will have different neighbours during the simulation. There is a simple rejection--free method to generate such graph (Algorithm~\ref{alg:graph-vnm}).
 
-\begin{tcolorbox}[
-title=Algorithm to generate the graph for VNM,
-enlarge bottom by=0.5em,
-enlarge top by=0.5em,
-]
-
-\label{alg:graph-vnm}
-\begin{algorithmic}
-
-\Procedure{rand-graph-vnm}{k, n}
-\State Nodes $\gets \{0 \dots n-1 \}$
-\State Edges $\gets \{\}$
-\For {$i_1 \gets 1, n$}
-	\State Selection $\gets$ \{\}
-	\Repeat
-		\State $i_2 \gets$  randomly choose from Nodes
-		\If {$i_2$ not in Selection}
-			\State put $i_2$ in Selection
-			\State put $(i_1, i_2)$ in Edges
-		\EndIf
-	\Until size(Selection) = k
-\EndFor
-\State \textbf{return} (Nodes, Edges)
-\EndProcedure
-\end{algorithmic}
-
-\end{tcolorbox}
 
 
 \begin{SCfigure}
   \includegraphics[width=\linewidth]{graph-vnm}
-  \caption{Graph and matrix representation of the vectorial network model, with increasing connection number ($K$). The top row illustrate the relationship between 5 agents. And the arrow from $i$ to $j$ indicates that agent $i$ will align with agent $j$. The bottom row indicates the adjacency matrices of these graphs. }
+  \caption[Examples of graphs for vectorial network model]{Graph and matrix representation of the vectorial network model, with increasing connection number ($K$). The top row illustrate the relationship between 5 agents. And the arrow from $i$ to $j$ indicates that agent $i$ will align with agent $j$. The bottom row indicates the adjacency matrices of these graphs. }
   \label{fig:graph-vnm}
 \end{SCfigure}
 
@@ -156,35 +100,14 @@ Notably, the topology of the graph can be changed. For instance, we can force ea
 
 \begin{SCfigure}
   \includegraphics[width=\linewidth]{graph-regular}
-  \caption{Graph and matrix representation of the vectorial network model with extra topological constrains. The sub--figures have increasing connection number ($K$) from left to right. The top row illustrate the relationship between 5 agents. And the arrow from $i$ to $j$ indicates that agent $i$ will align with agent $j$. The bottom row indicates the adjacency matrices of these graphs. }
+  \caption[Examples of graphs for vectorial network model with topological constrains]{Graph and matrix representation of the vectorial network model with extra topological constrains. The sub--figures have increasing connection number ($K$) from left to right. The top row illustrate the relationship between 5 agents. And the arrow from $i$ to $j$ indicates that agent $i$ will align with agent $j$. The bottom row indicates the adjacency matrices of these graphs. }
   \label{fig:graph-regular}
 \end{SCfigure}
 
-Generating random graphs that meets the constrains of cgVNM is not easy. But we can at least resort to the rejection algorithm (Algorithm \ref{alg:graph-cgvnm}).
+Generating random graphs that meets the constrains of cgVNM is not easy. But we can at least resort to the rejection algorithm (Algorithm \ref{alg:graph-reject}).
+However, the rejection method can be extremely slow when the rejection ratio is high. In practice, the rejection method is not practical for large scale simulation. In my actually simulation, a faster algorithm was used \cite{kim2003book}. The behaviour of the cgVNM is very similar to the VNM.
 
-\begin{tcolorbox}[
-title=Rejection Algorithm to generate graphs with constrains,
-enlarge bottom by=0.5em,
-enlarge top by=0.5em,
-]
-
-\label{alg:graph-cgvnm}
-\begin{algorithmic}
-
-\Procedure{rand-graph-cgvnm}{k, n}
-\State succeed $\gets$ false
-\Repeat
-	\State (Nodes, Edges) $\gets$ rand-graph-vnm(k, n)
-	\State succeed $\gets$ Edges satisfy all constrains
-\Until succeed
-\State \textbf{return} (Nodes, Edges)
-\EndProcedure
-\end{algorithmic}
-\end{tcolorbox}
-
-\noindent However, the rejection method can be extremely slow when the rejection ratio is high. In practice, the rejection method is not practical for large scale simulation. In my actually simulation, a faster algorithm was used \cite{kim2003book}. The behaviour of the cgVNM is very similar to the VNM.
-
-\subsection{The Majority Voter Model}
+\subsubsection*{The Majority Voter Model}
 
 The majority voter model\marginfootnote{The majority voter model is introduced also because it is reminiscent of the celebrated Ising model. However this thesis will not refer to the Ising model, in order to comfort the unfamiliar readers. However I would like to point out the similarity between the two order parameters: the \emph{polarisation} of the active matter models and the \emph{magnetisation} of the Ising model.}
  treats each agent as a binary variable (noted as $v_i$) that takes the value of $+1$ and $-1$. And each agent will interact with its neighbours with the following interaction rule \cite{pimentel2008PRE}. 
@@ -211,11 +134,11 @@ The behaviour of the voter model is presented in Fig.\ \ref{fig:voter}.
 
 \begin{SCfigure}
   \includegraphics[width=\linewidth]{majority-voter}
-  \caption{The behaviour of the voter model with intrinsic noise. (a) The relationship between the polarisation and the noise from the voter model ($K=3$). The scatters are the simulation result of a system ($N=50000$), and the solid line is the prediction of the mean--field theory \cite{pimentel2008PRE}. (b) The polarisation as a function of the connection number ($K$) and the noise. (c) The susceptibility as a function of the connection number ($K$) and the noise.}
+  \caption[The phase behaviour of the voter model]{The behaviour of the voter model with intrinsic noise. (a) The relationship between the polarisation and the noise from the voter model ($K=3$). The scatters are the simulation result of a system ($N=50000$), and the solid line is the prediction of the mean--field theory \cite{pimentel2008PRE}. (b) The polarisation as a function of the connection number ($K$) and the noise. (c) The susceptibility as a function of the connection number ($K$) and the noise.}
   \label{fig:voter}
 \end{SCfigure}
 
-\subsection{The Vectorial Network Model}
+\subsubsection*{The Vectorial Network Model}
 
 For agents in the vectorial network model (VNM), their states were represented by a unit vector $\in R^d$, and the agents interact with each other through a random graph with fixed $K$ neighbours number, determined by its underlying graph.
 
@@ -225,25 +148,25 @@ This model is characterised by two parameters, the neighbour number $K$ and a no
 Let's call the VNM with the constrained graph cgVNM. The cgVNM is interesting because it is similar to the Vicsek model, where the interaction between agents were determined by their locations rather than a graph.
 
 
-\section{Ordering in Real Space: Vicsek model and its derivatives}
+\subsection{Ordering in Real Space}
 
 The Vicsek model and its derivatives are famous model to describe the collective behaviour of animals, as review in section \ref{ch2-review-model}. These models are simple and they can relate to each other with a hierarchy. Here I will discuss three representative models, whose relationship can be summarised in Fig.\ \ref{fig:model-relation}. It is satisfying to discover that the ``most elementary'' model, the voter model, have a close relationship with the celebrated Ising model.
 
 
-\subsection{The Vicsek Model}
+\subsubsection*{The Vicsek Model}
 
 The density in the Vicsek model is similar to the neighbour number in the VNM. And the phase diagram of the Vicsek model is very similar to that of the VNM.
 
 
-\subsection{The modified Vicsek Model}
+\subsubsection*{The modified Vicsek Model}
 
-\subsection{The Inertial Spin Model}
+\subsubsection*{The Inertial Spin Model}
 
-\section{Realistic Ordering}
+\section{Realistic Simulation}
 
 Even though the modified Vicsek model captured the relationship between the length scales and the polarisation of the zebrafish, a great amount of detail is lost. For instance, the spatial distribution in the Vicsek model is totally different from that of the real fish, for the lack of short--ranged repulsive interaction as well as the long ranged attraction. In addition, the biological details of the fish, such as the limited field--of--view, were not considered. This is not a bug, it is a feature. The simplicity of Vicsek model is indeed the reason for its popularity amongst the physics community. However, I still want to explore a bit further into the biological details, by constructing more realistic model to match the experiment. There is a trap of building a complicated model. Adding more parameters will make the model more realistic, but also increase our chance of \emph{overfitting}, where the model captured the irrelevant details (even measurement noises) rather than the general behaviour. Nevertheless, let us bravely march into the realm of the biology, where details of the model matter.
 
-\subsection{The Couzin Model}
+\subsection{Perception Zones}
 
 The well accepted realistic model for the behaviour of fish is proposed by Iain Couzin in 2002. It is hence called Couzin model. I implemented this model so that it can be used as a starting model, which is to be further modified to fit the experimental data of zebrafish.
 
@@ -303,7 +226,7 @@ $$
 
 \begin{SCfigure}
   \includegraphics[width=\linewidth]{tank-marginal-dist}
-  \caption{The marginal probability density distribution of points sampled uniformly inside the tank. Left: the distribution of x component of the points. Center: the distribution the radius in the XY plane. Right: the distribution of the z component of the points.}
+  \caption[The 3D geometry of the experimental fish tank]{The marginal probability density distribution of points sampled uniformly inside the experimental fish tank. Left: the distribution of x component of the points. Center: the distribution the radius in the XY plane. Right: the distribution of the z component of the points.}
   \label{fig:tank-dist}
 \end{SCfigure}
 
@@ -314,8 +237,24 @@ The interaction between the fish and the tank can take different forms. And ther
 
 \subsection{The External Field}
 
-The fish will be affected by the gravity. In fact, the fish always swims with their belly facing to the ground. But such behaviour 
+The fish will be affected by the gravity. In fact, the fish always swims with their belly facing to the ground. The external field will change the density distribution fish in the tank, bringing the fish to the bottom part of the tank. Such distribution was presented in Section \ref{section:fish_1_3d} -- \ref{section:fish_many_3d}.
 
-\subsection{The Zebrafish Model}
+As a first attempt, it is easy to calculate the density distribution of ideal gas particles in equilibrium, which are subjected to the gravity field and constrained inside the fish tank. The joint PDF of the density is written as,
+
+$$
+\begin{aligned}
+f(x, y, z) &= \frac{\exp(-\beta z)}{
+	\int_0^h \pi z/c \exp(-\beta z) dz
+} \\[1em]
+&= \frac{c \exp(-\beta z) \beta^2}{\pi (1 - \exp(-\beta h) (1 + \beta h))}.
+\end{aligned}
+$$
+
+\noindent where $\beta = 1 / (k_B T)$ is the inverse temperature. From the joint PDF we can calculate the marginal distribution of Z coordinate ($f_Z$) and the distribution of the radii of particles ($f_R$). They are written as,
+
+
+\subsection{Towards a Realistic Zebrafish Model}
+
+
 
 \end{document}

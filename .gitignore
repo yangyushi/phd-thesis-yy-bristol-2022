@@ -7,3 +7,4 @@ tex/*
 **/__pycache__
 **/tags
 Icon*
+!tex/thesis.pdf

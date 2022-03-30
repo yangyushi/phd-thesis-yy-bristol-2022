@@ -8,8 +8,36 @@
 \chapter{Conclusions}
 \label{chapter:conclusion}
 
-\section{Introduction}
+A group of animals is an active matter system, whose collective behaviour could be interpreted in the framework of statistical physics. In this thesis, we studied the behaviour of zebrafish with the existing concepts and tools from the active matter community.
+For this purpose, we developed the experimental system, the tracking software, and the analytical methods to observe the 3D movement of fish in a quantitatively way.
+Using these tools, we studied the effect of genetic mutation on the zebrafish, focusing on a particular gene \emph{col11a2} that is associated with human diseases.
 
-Understanding the behaviours of zebrafish is not only intellectually fulfilling, but it is also useful. Appreciating the stochastic nature of the animal behaviours, the detailed knowledge of zebrafish would enable us identify the behaviour differences. Let us take an example from soft matter physics. If I create two ensembles of Lennard--Jones liquid at the same density and temperature, and follow the movement of particles. Then I will get complete different trajectories. However, I would k
+In chapter~\ref{chapter:fish_2d}, we developed the image processing pipeline to record the 2D collective motion for a group of fish. The proposed pipeline is capable of locating the fish in an image without the biological details.
+The ideas and algorithms to recover 3D coordinates from 2D images are introduced in chapter~\ref{chapter:fish_3d}. It is expected that motivated readers can follow the path and build their own 3D animal tracking systems. As a result, we could obtain the locations of individual fish from our system at different time points, yielding the structural information of the fish group.
+
+The coordinates of the fish need further process, so that we can study their collective behaviour. In chapter~\ref{chapter:fish_analysis}, we introduced the method to refine the coordinates, and the way to recover dynamical information from the coordinates, by linking the locations into trajectories.
+We then introduced the different quantities that captured the behavioural features of the zebrafish, and the different correlation functions for the dynamics and the structure of the fish group.
+The ideas and algorithms introduced in chapter~\ref{chapter:fish_analysis} are expected to be helpful for other researchers. For instance, the coordinate refinement method and linking algorithms can be applied to the study of cellular behaviour or the movement of colloids. The correlation functions are helpful for characterising the structure and dynamics of different complex systems.
+
+Using our developed method, we analysed the structure and dynamics of 50 zebrafish. We learned that the fish exhibited two well separated time scales, with the fast reorientation of individuals, and a slow relaxation of the local density. In addition, a group of fish change their macroscopic states constantly, whose collective motion could switch between ordered and disordered. These changing states, nevertheless, can be described by a single quantity that encodes the activity and density of the system.
+
+
+To get further insight, we modelled the behaviour of the fish in chapter~\ref{chapter:fish_model}. To understand the density distribution of the fish, we numerically simulated an equilibrium model to match the experimental results. The model revealed the effects of the environment, the pairwise interaction, and the group size. To understand the dynamics of the fish, we numerically studied an active matter model where particles align with nearby neighbours. The fit between simulation results and experimental data suggests the importance of the inertia and alignment interaction.
+
+Finally, we observed the collective motion of 25 wildtype zebrafish and 25 {\mf}, whose expression of type XI collagen was interrupted. Analysing the movement of individuals, we discovered the mutant fish have a significantly longer orientational relaxation time, presumably due to their compromised collagen development. 
+The increased relaxation time leads to a higher activity for the {\mf}, yielding more ordered collective behaviour. Such linkage could be explained by the dynamical model developed in chapter~\ref{chapter:fish_model}.
+
+\;\\
+
+Many technical improvements could be made, for studies that are taking a similar route. For instance, the 2D image processing is still slow, which is incapable of real-time tracking. The speed could be be improved with the machine learning methods, and maybe other optimised algorithms.
+For the 3D tracking, the urgent issue is to make the method more accessible, requiring the implementation of good software engineering principles, such as writing detailed documentation and helpful examples. Ideally, a graphical user interface should be provided for non-specialists without background in coding and computer vision.
+
+For the study of zebrafish behaviour, a potential unexplored topic is the large scale milling phase, presented in chapter~\ref{chapter:collective_behaviour}. We did not observe such novel phenomenon in this project. To study this new pattern, and other potentially interesting collective behaviour, it may be necessary carry out field observations in the sea. In addition, it would be helpful to perform more experiments under controlled conditions, to study the response of the fish group to external stimuli.
+
+For the understanding of zebrafish behaviour, we tried to model the density distribution and the dynamics of the fish separately. We did not craft a model that is capable of capturing both the structural features and the dynamical features at the same time. It is worthwhile to seek a simple model that recreates more experimental behavioural features.
+
+\;\\
+
+Is active matter a useful concept, for the sake of biology? The statistical tools helped us extracting important time-scales and length-scales of the zebrafish. We understood their collective order-disorder transition with an active matter model, and studied the effect of genetic mutation under the same framework. At the end of the thesis, we provide positive answer to this question.
 
 \end{document}

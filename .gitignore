@@ -6,3 +6,4 @@ tex/*
 !tex/*.bib
 **/__pycache__
 **/tags
+Icon*

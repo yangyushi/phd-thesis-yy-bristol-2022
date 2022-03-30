@@ -43,10 +43,11 @@
     \vspace{2cm}
     {\large \it Author:}
     \hfill
-    {\large \it Supervisor:} \\
-    {\sc \large \href{mailto:yushi.yang@bristol.ac.uk}{Yushi~Yang}}
-    \hfill
-    {\sc \large Dr.~Thomas~Machon\par}
+    {\large \it Supervisors:} \\
+    {\sc \large Yushi~Yang}
+    \hfill {\sc \large Dr.~Thomas~Machon\par}
+    \hfill {\sc \large Dr.~Chrissy~Hammond\par}
+    \hfill {\sc \large Dr.~C~Patrick~Royall\par}
     \vspace{3.5cm}
    {\large \it A dissertation submitted to the University of Bristol in accordance with the requirements for award of the degree of Doctor of Philosophy in the Faculty of Science, H.\ H.\ Wills Physics Laboratory. \par}
     \vspace{1em}
@@ -56,7 +57,7 @@
   \vfill
   \begin{minipage}{0.8\linewidth}
     \raggedleft
-    {\large \wordcount}
+    {\large 37257 Words}
   \end{minipage}
 \end{center}
 
@@ -64,21 +65,37 @@
 
 \cleardoublepage\include{ch0-open}
 
-\cleardoublepage\tableofcontents
+\cleardoublepage
 
-\cleardoublepage\listoffigures
-\addcontentsline{toc}{chapter}{List of figures}
+{
+	\hypersetup{linkcolor=black}
+	\tableofcontents
 
-\cleardoublepage\listoftables
-\addcontentsline{toc}{chapter}{List of tables}
+	\cleardoublepage
+	\listoffigures
+	\addcontentsline{toc}{chapter}{List of figures}
+	
+	\cleardoublepage\listoftables
+	\addcontentsline{toc}{chapter}{List of tables}
+	
+	\listofalgorithms
+	\addtocontents{loa}{\def\string\figurename{Algorithm}}
 
-\cleardoublepage\listofalgorithms
-\addtocontents{loa}{\def\string\figurename{Algorithm}}
+}
+
+\printnoidxglossary[
+	type=acronym, style=list,
+	title={List of Abbreviations}
+]
+
+\newpage
+
+\printnoidxglossary[
+	type=symbols, style=mylong3colheader, title={List of Symbols}
+]
 
 \cleardoublepage
 \restoregeometry
-
-%\begin{spacing}{1.25}
 
 \pagenumbering{arabic}
 
@@ -95,10 +112,10 @@
 \include{ch8-conclusions}
 
 \begin{appendices}
-  \include{cha1-multi-view-geometry}
-  \include{cha2-app-algorithms}
+  %\include{cha1-multi-view-geometry}
+  %\cleardoublepage
+\include{cha2-extra-2d}
 \end{appendices}
 
 \printbibliography
-
 \end{document}

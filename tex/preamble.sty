@@ -6,10 +6,22 @@
 \usepackage{booktabs}
 \usepackage[autostyle=true]{csquotes}
 
+\definecolor{seagreen}{rgb}{0.15,0.48,0.27}
+\definecolor{tomato}{rgb}{1.0, 0.39, 0.28}
+\definecolor{hanblue}{rgb}{0.27, 0.42, 0.81}
+
 \usepackage{xeCJK}
+\setCJKmainfont{LiSongPro}
+\setCJKfamilyfont{Ling}{MLingWaiMedium-SC}
+\setCJKfamilyfont{Kai}{STXingkaiTC-Light}
 \usepackage{dirtree}
 \usepackage{xr}
-\usepackage{hyperref}
+\usepackage[
+colorlinks=true,
+linkcolor=seagreen,
+citecolor=tomato,
+urlcolor=hanblue,
+]{hyperref}
 \usepackage{graphicx}
 \usepackage[export]{adjustbox}
 \usepackage{epstopdf}
@@ -17,16 +29,29 @@
 \usepackage{epigraph}
 \usepackage{gensymb}
 \usepackage{changepage}
-\usepackage{algpseudocode}
-\usepackage{algorithm}
+\usepackage[symbols,nogroupskip,acronym,sort=use]{glossaries-extra}
 
-\setlength\epigraphwidth{.5\textwidth}
 
-\usepackage[style=phys,backend=biber]{biblatex}
-\addbibresource[datatype=bibtex]{bibliography.bib} 
+\usepackage[noend, noline]{algorithm2e}
+\RestyleAlgo{ruled}
+
+\setlength\epigraphwidth{.37\textwidth}
+
+\usepackage[
+	backend=biber,
+	style=phys,
+	natbib=true,
+    url=false, 
+    doi=false,
+    eprint=false,
+    biblabel=brackets,
+    pageranges=false,
+    sorting=none
+]{biblatex}
+\addbibresource[datatype=bibtex]{bibliography.bib}
 %\bibliography{bibliography}
+%\DeclareFieldFormat{titlecase}{\MakeSentenceCase*{#1}}
 
-\DeclareFieldFormat{titlecase}{\MakeSentenceCase*{#1}}
 \usepackage[toc,page]{appendix}
 
 \usepackage[caption=false]{subfig}
@@ -57,7 +82,9 @@
 }
 %\newcommand{\marginfootnote}[1]{\footnotemark\marginnote{#1}}
 % Create enough space in the margin for the notes.
-\usepackage[top=2cm, bottom=2cm, outer=7cm, inner=2cm, heightrounded, marginparwidth=5cm, marginparsep=1cm]{geometry}
+\usepackage[
+top=2cm, bottom=2cm, outer=7cm, inner=2cm, heightrounded, marginparwidth=5cm, marginparsep=1cm
+]{geometry}
 
 \usepackage{titlesec}
 \setcounter{secnumdepth}{2}
@@ -77,58 +104,7 @@
 \newcommand{\descriptors}{behavioural quantities}
 \newcommand{\smallfish}{young}
 \newcommand{\bigfish}{old}
-\newcommand{\mf}{\emph{col11a2} zebrafish}
-
-\newcommand{\ball}{\mathcal{B}}
-\newcommand{\minkplus}{\oplus}
-\newcommand{\minkminus}{\ominus}
-\newcommand{\sherwood}{C}
-\renewcommand{\emptyset}{\varnothing}
-\renewcommand{\vec}[1]{\boldsymbol{\mathbf{#1}}}
-\DeclareMathOperator*{\argmax}{arg\,max}
-\DeclareMathOperator*{\argmin}{arg\,min}
-\DeclareMathOperator*{\Tr}{Tr}
-\DeclareMathOperator{\erf}{erf}
-\DeclareMathOperator{\interior}{int}
-\usepackage{listings}
-\lstset{language=Python,keywordstyle={\bfseries \color{blue}}}
-
-\makeatletter
-\newcounter{qrr@oldeq}
-\newcounter{qrr@oldsubeq}
-\newcounter{qrr@realeq}
-\renewenvironment{subequations}{%
-  \refstepcounter{equation}%
-  \protected@edef\theparentequation{\theequation}%
-  \setcounter{parentequation}{\value{equation}}%
-  \setcounter{equation}{0}%
-  \def\theequation{\theparentequation\alph{equation}}%
-  \ignorespaces
-}{%
-  \setcounter{qrr@oldeq}{\value{parentequation}}%
-  \setcounter{qrr@oldsubeq}{\value{equation}}%
-  \setcounter{equation}{\value{parentequation}}%
-  \ignorespacesafterend
-}
-\newenvironment{subequations*}{%
-  \setcounter{qrr@realeq}{\value{equation}}%
-  \let\theparentequation\theequation%
-  \patchcmd{\theparentequation}{equation}{parentequation}{}{}%
-  \setcounter{parentequation}{\numexpr\value{qrr@oldeq}-1}%
-  \setcounter{equation}{\value{qrr@oldsubeq}}%
-  \def\theequation{\theparentequation\alph{equation}}%
-  \refstepcounter{parentequation}%
-  \ignorespaces
-}{%
-  \setcounter{qrr@oldeq}{\value{parentequation}}%
-  \setcounter{qrr@oldsubeq}{\value{equation}}%
-  \setcounter{equation}{\value{qrr@realeq}}%
-  \ignorespacesafterend
-}
-
-\newenvironment{diagram}
-{\vspace{2ex}}
-{\vspace{2ex}}
+\newcommand{\mf}{\emph{col11a2} mutant zebrafish}
 
 \usepackage{xparse}
 
@@ -136,5 +112,270 @@
 \texttt{#1}%
 }
 
+% make glossary wider
+\newglossarystyle{mylong3col}{%
+  \renewenvironment{theglossary}%
+    {
+    \renewcommand*{\arraystretch}{1.2}
+    \begin{longtable}{lp{1.25\glsdescwidth}p{2\glspagelistwidth}}
+    }%
+    {\end{longtable}}%
+  \renewcommand*{\glossaryheader}{}%
+  \renewcommand*{\glsgroupheading}[1]{}%
+  \renewcommand{\glossentry}[2]{%
+    \glsentryitem{##1}\glstarget{##1}{\glossentryname{##1}} &
+    \glossentrydesc{##1} & ##2\tabularnewline
+  }%
+  \renewcommand{\subglossentry}[3]{%
+     &
+     \glssubentryitem{##2}%
+     \glstarget{##2}{\strut}\glossentrydesc{##2} &
+     ##3\tabularnewline
+  }%
+  \ifglsnogroupskip
+    \renewcommand*{\glsgroupskip}{}%
+  \else
+    \renewcommand*{\glsgroupskip}{ & & \tabularnewline}%
+  \fi
+}
+
+\newglossarystyle{mylong3colheader}{%
+  \setglossarystyle{mylong3col}%
+  \renewcommand*{\glossaryheader}{%
+    \bfseries\entryname&\bfseries\descriptionname&
+    \bfseries\pagelistname\tabularnewline\endhead}%
+}
+
+% Define all the symbols
+
+\glsxtrnewsymbol[description={the noise term in the Vicsek Model}]
+	{eta}{\ensuremath{\eta}}
+\glsxtrnewsymbol[description={the number of particles/agents}]
+	{N}{\ensuremath{N}}
+\glsxtrnewsymbol[description={polarisation order parameter vector}]
+	{polvec}{\ensuremath{\mathbf{P}}}
+\glsxtrnewsymbol[description={polarisation order parameter }]
+	{pol}{\ensuremath{\Phi}}
+\glsxtrnewsymbol[description={milling order parameter vector}]
+	{millvec}{\ensuremath{\mathbf{M}}}
+\glsxtrnewsymbol[description={milling order parameter }]
+	{mill}{\ensuremath{M}}
+\glsxtrnewsymbol[description={location of the centre}]
+	{center}{\ensuremath{\mathbf{c}}}
+\glsxtrnewsymbol[description={time}]
+	{t}{\ensuremath{t}}
+\glsxtrnewsymbol[description={orientation}]
+	{o}{\ensuremath{\mathbf{o}}}
+\glsxtrnewsymbol[description={velocity}]
+	{v}{\ensuremath{\mathbf{v}}}
+\glsxtrnewsymbol[description={velocity of the $i$th particle at time $t$}]
+	{vit}{\ensuremath{\mathbf{v}_i^t}}
+\glsxtrnewsymbol[description={distance between two particles}]
+	{r}{\ensuremath{r}}
+\glsxtrnewsymbol[description={radial distribution function}]
+	{gr}{\ensuremath{g(r)}}
+\glsxtrnewsymbol[description={correlation length of the density}]
+	{xirho}{\ensuremath{\xi_\rho}}
+\glsxtrnewsymbol[description={spatial correlation function}]
+	{cr}{\ensuremath{C(r)}}
+\glsxtrnewsymbol[description={temporal correlation function}]
+	{ct}{\ensuremath{C(t)}}
+\glsxtrnewsymbol[
+	description={temporal correlation function of quantity $\mathcal{A}$}
+	]
+	{cat}{\ensuremath{C_\mathcal{A}(t)}}
+\glsxtrnewsymbol[
+	description={temporal correlation function of the orientation}
+	]
+	{cot}{\ensuremath{C_\mathbf{o}(t)}}
+\glsxtrnewsymbol[description={the diameter of particles}]
+	{sigma}{\ensuremath{\sigma}}
+\glsxtrnewsymbol[description={spatial correlation function of the orientation}]
+	{cor}{\ensuremath{C_\mathbf{o}(r)}}
+\glsxtrnewsymbol[description={correlation length of the orientation}]
+	{xio}{\ensuremath{\xi_\mathbf{o}}}
+\glsxtrnewsymbol[description={spatial correlation function of the speed}]
+	{cvr}{\ensuremath{C_v(r)}}
+\glsxtrnewsymbol[description={susceptibility}]
+	{chi}{\ensuremath{\chi}}
+\glsxtrnewsymbol[description={dimension}]
+	{dim}{\ensuremath{d}}
+\glsxtrnewsymbol[description={energy}]
+	{e}{\ensuremath{E}}
+\glsxtrnewsymbol[description={external field}]
+	{h}{\ensuremath{h}}	
+\glsxtrnewsymbol[description={coupling constant between two spins}]
+	{jij}{\ensuremath{J_{ij}}}
+\glsxtrnewsymbol[description={relaxation time of quantity $\mathcal{A}$}]
+	{taua}{\ensuremath{\tau_\mathcal{A}}}
+\glsxtrnewsymbol[description={anisotropy factor}]
+	{gamma}{\ensuremath{\gamma}}
+\glsxtrnewsymbol[description={neighbour rank}]
+	{nr}{\ensuremath{n}}
+\glsxtrnewsymbol[description={correlation function of anisotropy factor}]
+	{cgamman}{\ensuremath{C_\gamma(n)}}
+\glsxtrnewsymbol[description={orientational cross-correlation function}]
+	{cijt}{\ensuremath{C_{ij}(t)}}
+\glsxtrnewsymbol[description={pressure}]
+	{press}{\ensuremath{P}}
+\glsxtrnewsymbol[description={temperature}]
+	{temp}{\ensuremath{T}}
+\glsxtrnewsymbol[description={entropy}]
+	{entropy}{\ensuremath{S}}
+\glsxtrnewsymbol[description={volume}]
+	{vol}{\ensuremath{V}}
+\glsxtrnewsymbol[description={chemical potential}]
+	{mu}{\ensuremath{\mu}}
+\glsxtrnewsymbol[description={Boltzmann constant}]
+	{kb}{\ensuremath{k_B}}
+\glsxtrnewsymbol[description={internal pressure}]
+	{pressint}{\ensuremath{\mathcal{W}}}
+\glsxtrnewsymbol[description={homography}]
+	{homo}{\ensuremath{\mathbf{H}}}
+\glsxtrnewsymbol[description={the foreground video}]
+	{fijt}{\ensuremath{F_{ij}(t)}}
+\glsxtrnewsymbol[description={the foreground image}]
+	{fij}{\ensuremath{F_{ij}}}
+\glsxtrnewsymbol[description={the video from the camera}]
+	{iijt}{\ensuremath{I_{ij}(t)}}
+\glsxtrnewsymbol[description={the image from the camera}]
+	{iij}{\ensuremath{I_{ij}}}
+\glsxtrnewsymbol[description={the background video}]
+	{bijt}{\ensuremath{B_{ij}(t)}}
+\glsxtrnewsymbol[description={standard deviation of the  Gaussian kernel for blurring}]
+	{sigblur}{\ensuremath{\sigma_\mathrm{blur}}}
+\glsxtrnewsymbol[description={length scale for the local threshold}]
+	{llt}{\ensuremath{l_\mathrm{local}}}
+\glsxtrnewsymbol[description={length scale of the binary open operation}]
+	{lbo}{\ensuremath{l_\mathrm{open}}}
+\glsxtrnewsymbol[description={fish shape template}]
+	{tij}{\ensuremath{T_{ij}}}
+\glsxtrnewsymbol[description={Feature tensor including the locations the fish}]
+	{cij}{\ensuremath{C_{ij}}}
+\glsxtrnewsymbol[description={Feature tensor including the locations and orientations of the fish}]
+	{cijo}{\ensuremath{C_{ijo}}}
+\glsxtrnewsymbol[description={Feature tensor including the locations,  orientations, and shapes of the fish}]
+	{cijos}{\ensuremath{C_{ijos}}}
+\glsxtrnewsymbol[description={3D location of the 2D feature on the $i$th camera}]
+	{fi}{\ensuremath{\mathbf{f}_i}}
+\glsxtrnewsymbol[description={3D location of the $i$th fish}]
+	{xi}{\ensuremath{\mathbf{x}_i}}
+\glsxtrnewsymbol[description={Projection matrix}]
+	{proj_mat}{\ensuremath{\mathbf{P}_{3 \times 4}}}
+\glsxtrnewsymbol[description={the centre of the $i$th camera}]
+	{cci}{\ensuremath{\mathbf{c}_i}}
+\glsxtrnewsymbol[description={the point where the retraced ray from the $i$th camera and the water-air interface meets}]
+	{ai}{\ensuremath{\mathbf{a}_i}}
+\glsxtrnewsymbol[description={the retraced ray from the $i$th camera after the refraction}]
+	{vi}{\ensuremath{\mathbf{v}_i}}
+\glsxtrnewsymbol[description={the 3D location of a fish}]
+	{loc3d}{\ensuremath{\mathbf{x}}}
+\glsxtrnewsymbol[description={the retraced error for the $i$th camera}]
+	{reterri}{\ensuremath{d_i}}
+\glsxtrnewsymbol[description={the reprojection error for the $i$th camera}]
+	{reperri}{\ensuremath{\epsilon_i}}
+\glsxtrnewsymbol[description={the reprojection error}]
+	{reperr}{\ensuremath{\epsilon}}
+\glsxtrnewsymbol[description={a collection of valid 3D locations from three view reconstruction}]
+	{xijk}{\ensuremath{\{ \mathbf{x}_{ijk} \}}}
+\glsxtrnewsymbol[description={an optimised collection of valid 3D locations from three view reconstruction}]
+	{xijkopt}{\ensuremath{\{ \mathbf{x}_{ijk} \}_\mathrm{opt}}}
+\glsxtrnewsymbol[description={the probability density function of radius}]
+	{pdfr}{\ensuremath{f_R(r)}}
+\glsxtrnewsymbol[description={the probability density function of pairwise distances}]
+	{pdfd}{\ensuremath{f_d(r)}}
+\glsxtrnewsymbol[description={the probability density function of z coordinates}]
+	{pdfz}{\ensuremath{f_Z(z)}}
+\glsxtrnewsymbol[description={the excess probability density function of z coordinates}]
+	{pdfexz}{\ensuremath{f_Z^\mathrm{ex}(z)}}
+\glsxtrnewsymbol[description={the joint probability density function of X and Y coordinates}]
+	{pdfxy}{\ensuremath{f_{XY}}}
+\glsxtrnewsymbol[description={the joint probability density function of X and Z coordinates}]
+	{pdfxz}{\ensuremath{f_{XZ}}}
+\glsxtrnewsymbol[description={the effective gravitational length}]
+	{xig}{\ensuremath{\xi_g}}
+\glsxtrnewsymbol[description={the correlation length}]
+	{lcorr}{\ensuremath{\xi}}
+\glsxtrnewsymbol[description={a collection of 3D coordinates}]
+	{coords}{\ensuremath{\{ \mathbf{x} \}}}
+\glsxtrnewsymbol[description={a collection of optimised 3D coordinates}]
+	{coordsopt}{\ensuremath{\{ \mathbf{x} \}_\mathrm{opt}}}
+\glsxtrnewsymbol[description={the number of non-overlapping particles}]
+	{K}{\ensuremath{K}}
+\glsxtrnewsymbol[description={an element in a boolean array for removing overlap particles}]
+	{xbool}{\ensuremath{x_i}}
+\glsxtrnewsymbol[description={inverse temperature}]
+	{beta}{\ensuremath{\beta}}
+\glsxtrnewsymbol[description={total squared movement of trajectories}]
+	{tsm}{\ensuremath{\Delta}}
+\glsxtrnewsymbol[description={nearest neighbour distance}]
+	{lnn}{\ensuremath{l_\mathrm{nn}}}
+\glsxtrnewsymbol[description={distance between particle $i$ and $j$}]
+	{dij}{\ensuremath{d_{ij}}}
+\glsxtrnewsymbol[description={effective convex hull diameter}]
+	{lch}{\ensuremath{l_\mathrm{ch}}}
+\glsxtrnewsymbol[description={the effective attraction}]
+	{attr}{\ensuremath{\epsilon}}
+\glsxtrnewsymbol[description={average speed}]
+	{spd}{\ensuremath{v}}
+\glsxtrnewsymbol[description={persistence length}]
+	{lp}{\ensuremath{l_p}}
+\glsxtrnewsymbol[description={reduced persistence length, the ratio between the persistence length and the nearest neighbour distance}]
+	{kappa}{\ensuremath{\kappa}}
+\glsxtrnewsymbol[description={number density}]
+	{rho}{\ensuremath{\rho}}
+\glsxtrnewsymbol[description={partition function}]
+	{Z}{\ensuremath{Z}}
+\glsxtrnewsymbol[description={effective pairwise potential energy}]
+	{ur}{\ensuremath{u(r)}}
+\glsxtrnewsymbol[description={the strength of the agent-hole interaction}]
+	{q}{\ensuremath{q}}
+\glsxtrnewsymbol[description={the strength of the agent-agent interaction}]
+	{p}{\ensuremath{p}}
+\glsxtrnewsymbol[description={the set containing the neighbours of agent $i$}]
+	{si}{\ensuremath{S_i}}
+\glsxtrnewsymbol[description={operator to normalise a vector}]
+	{opnorm}{\ensuremath{\Theta}}
+\glsxtrnewsymbol[description={operator to rotate a vector randomly with noise level $\eta$}]
+	{oprot}{\ensuremath{\mathcal{R}_\eta}}
+\glsxtrnewsymbol[description={velocity updating rule of the Vicsek model}]
+	{opvicsek}{\ensuremath{\mathcal{V}}}
+\glsxtrnewsymbol[description={density of the Vicsek model at the order-disorder transition}]
+	{rhoc}{\ensuremath{\rho_c}}
+\glsxtrnewsymbol[description={noise of the Vicsek model at the order-disorder transition}]
+	{etac}{\ensuremath{\eta_c}}
+\glsxtrnewsymbol[description={inertial in the modivied Vicsek model}]
+	{alpha}{\ensuremath{\alpha}}
+\glsxtrnewsymbol[description={density heterogeneity of a group of fish}]
+	{dh}{\ensuremath{\mathcal{D}}}
+\glsxtrnewsymbol[description={total mobility for a group of fish}]
+	{mob}{\ensuremath{\mathcal{M}}}
+\glsxtrnewsymbol[description={spatial-temporal correlation function}]
+	{ckt}{\ensuremath{\hat{C}(k, t)}}
+\glsxtrnewsymbol[description={acceptance ratio from state $\zeta$ to state $\nu$}]
+	{acc}{\ensuremath{A(\zeta \rightarrow \nu)}}
+
+% define of acronyms
+\newacronym{TRS}{TRS}{time reversal symmetry}
+\newacronym{ACF}{ACF}{auto-correlation function}
+\newacronym{PDF}{PDF}{probability density function}
+\newacronym{RDF}{RDF}{radial distribution function}
+\newacronym{MIPS}{MIPS}{mobility induced phase separation}
+\newacronym{ABP}{ABP}{active Brownian particles}
+\newacronym{GUI}{GUI}{graphical user interface}
+\newacronym{API}{API}{application programming interface}
+%\newacronym{}{}{}
+\newacronym{Pe}{Pe}{Péclet number}
+\newacronym{SVD}{SVD}{singular value decomposition}
+\newacronym{PCA}{PCA}{principle component analysis}
+\newacronym{CNN}{CNN}{convolutional neural network}
+\newacronym{FPGA}{FPGA}{field-programmable gate array}
+\newacronym{GPS}{GPS}{global positioning system}
+\newacronym{MC}{MC}{Monte-Carlo}
+\newacronym{dpf}{dpf}{days post fertilisation}
+\newacronym{wt}{wt}{wildtype}
+
+
+\makenoidxglossaries
 
 \makeatother

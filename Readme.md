@@ -6,6 +6,7 @@ This repository record the construction of my PhD thesis for a degree in Physics
 The template is copy-and-pasted from [Josh's PhD thesis](https://github.com/tranqui/Thesis).
 
 
+Good luck with compiling the `tex` files!
 
 ## What is inside
 

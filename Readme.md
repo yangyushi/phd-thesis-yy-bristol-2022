@@ -12,7 +12,7 @@ Good luck with compiling the `tex` files!
 
 ```
 .
+├── PGR_submission_YANG_YUSHI_1738145.pdf:  the thesis
 ├── img:  all the images in different chapters
-├── lib:  some auxiliary code to generate the plot
 └── tex:  the LaTeX source code to build the thesis
 ```

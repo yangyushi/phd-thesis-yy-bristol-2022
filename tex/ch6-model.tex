@@ -25,14 +25,15 @@ The moving individuals in the model can take different names, like the ``particl
 
 The density distribution of the fish was strongly affected by the presence of the boundary, as the fish were physically constrained in the tank.
 For the 3D experiment, the distribution of the fish was also affected by an ``effective gravity'', as well as the holes drilled on the tank. These environmental factors can be treated as external fields affecting the fish. In addition to these external factors, the fish-fish interaction will also change their distribution.
-With the Monte-Carlo (\gls{MC}) simulation techniques, we can study these effects individually. By doing so, we implicitly tested the idea of mapping active matter system to an equilibrium counterpart, where the non-equilibrium feature of the system, the activity, was summarised by an effective temperature\marginfootnote{
+With the Monte-Carlo (\gls{MC}) simulation techniques, we can study these effects individually. Using such simulation method, we assumes the fish group were in equilibrium. Such assumption is not valid since a group of fish is an active matter system. By applying this invalid assuption, we implicitly tested the idea of mapping active matter system to an equilibrium counterpart, where the non-equilibrium feature of the system, the activity, was summarised by an effective temperature\marginfootnote{
 This ``effective equilibrium'' picture is supported by the exponential decay of the excess distribution function shown in section~\ref{section:fish_1_3d}, as the decay suggests the Boltzmann-like distribution commonly seen in equilibrated systems.
-} \cite{palacci2010, klongvessa2019}.
+} \cite{palacci2010, klongvessa2019}. The MC approach ignores the dynamics of the system, but will give us insights regarding the structure (density distribution) of the fish group.
 
 For a group of fish, the order of their dynamics, captured by the polarisation value (Eq.~\ref{eq:polarisation}), correlates robustly with a non-dimensional value \gls{kappa}, the ratio between the persistence length (\gls{lp}) and the nearest neighbour distance (\gls{lnn}).
 Such a correlation suggests the local density and the persistence motion of the fish dominated the polarisation of the system.
 Since the persistence motion is a proxy to the \emph{activity} of the fish, the entire group of 50 zebrafish is behaving like an alignment dominated active matter system (section~\ref{section:active-phase}).
-To confirm the similarity of a group of zebrafish, and a model active matter system, we will use the dynamical simulation method to simulate the famous active matter model, the Vicsek model.
+To confirm the similarity of a group of zebrafish, and a model active matter system, we will use the dynamical simulation method to simulate the famous active matter model, the Vicsek model \cite{vicsek1995}.
+Such simulation ignores the structure of the fish group, where all the structural features are absorbed into the number density parameter in the model (section~\ref{section:vicsek-model}).
 To get a good fit between the model and the experiments, we will have to modify the Vicsek mode and consider the orientational inertia of the fish.
 The fitting of the model and the experimental result suggests the existence of the effective alignment interaction among the fish. And the changing states of the fish could be understood as a change of the noise level for the model.
 
@@ -67,7 +68,8 @@ During the simulation, the system change its states under some constraints. For 
 
 \subsection{Monte-Carlo Simulation}
 
-There are multiple ways to change the state of the system in algorithm~\ref{alg:simulation}. In a seemly arbitrary fashion, we could change the state of the system randomly, and reject some states that is unlikely to happen. This method is termed ``Monte-Carlo'' (MC) simulation, and the acceptance ratio were often determined by the Metropolis algorithm. Typically, the acceptance ratio from state $\zeta$ to $\nu$, \gls{acc}, is written as
+There are multiple ways to change the state of the system in algorithm~\ref{alg:simulation}. In a seemly arbitrary fashion, we could change the state of the system randomly, and reject some states that is unlikely to happen. This method is termed ``Monte-Carlo'' (MC) simulation, and the acceptance ratio were often determined by the Metropolis algorithm.
+Typically, the acceptance ratio from state $\zeta$ to $\nu$, \gls{acc}, is written as
 
 \[
 	A(\zeta \rightarrow \nu) = \left\{
@@ -79,7 +81,7 @@ There are multiple ways to change the state of the system in algorithm~\ref{alg:
 	\right.
 \]
 
-\noindent And the values of $E_\nu$ and $E_\zeta$ represent the energy values of state $\nu$ and $\zeta$, respectively. The value $\beta$ is the inverse temperature. The smaller $\beta$ value is, the higher the temperature, and the larger randomness the system exhibits.
+\noindent And the values of $E_\nu$ and $E_\zeta$ represent the energy values of state $\nu$ and $\zeta$, respectively. The value $\beta$ is the inverse temperature. The smaller $\beta$ value is, the higher the temperature, and the larger randomness the system exhibits. Sampling the states with this acceptance ratio, we are effective sampling an equilibrium system, whose states follow the Boltzmann distribution. For a microscopic state $\nu$, its probability to be sampled is $\exp(-\beta E_\nu) / Z$, were $Z$ is a normalisation factor (the partition function).
 
 With MC simulation, it is easy to constrain the agents in the fish tank, by setting $E = \infty$ once an agent is outside the tank.\marginfootnote{
 Operationally, we reject the states if any agent is outside the fish tank.
@@ -170,6 +172,12 @@ The 3D geometry of the tank confining the zebrafish was determined in section \r
 \subsection{The Effect of the ``Gravity''}
 \label{section:sim-mc-gravity}
 
+\begin{SCfigure}
+  \includegraphics[width=\linewidth]{density-gravity}
+  \caption[The distribution of ideal gas in the tank subjected to gravity]{The marginal probability density distribution of ideal gas particles sampled uniformly inside the experimental fish tank, where the particles were subjected to the gravity field. Left: the distribution the $z$ component. Right: the distribution of the $r = \sqrt{x^2 + y^2}$. The scatters were result of Monte-Carlo simulations, and the solid lines were from Eq.~\ref{eq:dist-gravity}.}
+  \label{fig:dist-gravity}
+\end{SCfigure}
+
 From the results presented in section~\ref{section:observe-3d-result}, it is evident that the zebrafish will be affected by an ``effective gravity'', because of their depth preference behaviour.
 This effective gravity is similar to 
 As a first attempt, we could calculate the density distribution of ideal gas particles in equilibrium, with an Boltzmann weight $\exp(-\beta z)$ to capture the effect of the gravity.
@@ -213,11 +221,7 @@ The \emph{partition function} (\gls{Z}) of the system is written as,
 \noindent The results from Eq.~\ref{eq:dist-gravity} were checked against the Monte-Carlo simulation results, as shown in Fig.~\ref{fig:dist-gravity}. With the increase of $\beta$, hence the decrease of temperature, the agents were pushed towards smaller $z$ values and $r$ values. By ``fitting'' the experimental results with the analytical results from Eq.~\ref{eq:dist-gravity}, and setting $\beta$ as a free parameter, we could obtain the effective temperature for the fish.
 %A systematic study of the change of the effective temperature could give us a more systematic understanding of the depth preference of the zebrafish. For instance, the fitting parameter $\beta$ could be interpreted as the ``fear'' perceived by the fish.
 
-\begin{SCfigure}
-  \includegraphics[width=\linewidth]{density-gravity}
-  \caption[The distribution of ideal gas in the tank subjected to gravity]{The marginal probability density distribution of ideal gas particles sampled uniformly inside the experimental fish tank, where the particles were subjected to the gravity field. Left: the distribution the $z$ component. Right: the distribution of the $r = \sqrt{x^2 + y^2}$. The scatters were result of Monte-Carlo simulations, and the solid lines were from Eq.~\ref{eq:dist-gravity}.}
-  \label{fig:dist-gravity}
-\end{SCfigure}
+
 
 
 \subsection{The Effect of the Holes}
@@ -263,11 +267,12 @@ Calculating the corresponding density distributions, \gls{pdfr} and \gls{pdfz}, 
 }
 
 The simulations in section~\ref{section:sim-mc-tank} to \ref{section:sim-mc-holes} treat the agents as ideal gas particles, without any interaction between the agents. This is not realistic, since the $g(r)$ of the zebrafish exhibits characteristic features (Fig.~\ref{fig:structure-3d} (c) in section~\ref{section:analysis-structure-3d}).
-In order to enable the agents to behave more like the zebrafish during the Monte-Carlo simulation, we added an effective agent-agent interaction energy term based on the pairwise distances of the agents. The effective potential energy\marginfootnote{
+In order to enable the agents to behave more like the zebrafish in the simulation, we added an effective interaction among the agents. We assume the interaction is pairwise, and spherically symmetrical, therefore ignored the possible many-body interactions \cite{kursten2020}.
+
+To implement the pairwise interaction in the Monte-Carlo simulation, we assign the effective potential energy\marginfootnote{
 Notice the logarithm of $g(r)$ is $-\beta u(r)$ for equilibrium systems. Here we ignored the $\beta$, and we controlled the strength of the pairwise interaction with parameter $q$.
-The reason for our choice is that we are only interested in the approximated shape of $u(r)$, which makes the fish forming a coherent group, rather than the exact analytical form of $u(r)$.
-}
-, \gls{ur}, is written as,
+The reason for our choice is that we are only interested in the approximated shape of $u(r)$, which makes the fish forming a coherent group.
+}, \gls{ur}, for all the pairs of agents. The potential energy is written as,
 
 \begin{equation*}
 	u(r) = -p \log\left[ g(r) \right]
@@ -308,26 +313,6 @@ Notice we implicitly transformed the height of the fish ($z_i$) to the potential
 }, the repulsive holes, and the pairwise interaction, and it is controlled by parameter $p$ and $q$.
 When both $p$ and $q$ are equal to zero, the agents behave like ideal gas in the tank subjected to the effective gravity. But tuning the value of $p$ and $q$, we increase the effect of the pairwise interaction and the holes.
 
-
-The effect of the pairwise interaction of the fish on the density distribution is shown in Fig.~\ref{fig:dist-interaction}, where we fixed the value of $q$ (which controls the strength of the fish-hole interaction) to be $0$, and set $\beta=0.1$. These parameters correspond to the condition where the effects of both the gravity and the holes could be ignored.
-When the value of $p$ is small, so that the interaction among the agents are weak, the system behaves like ideal gas particles under gravity, described by Eq.~\ref{fig:dist-interaction}. When the value of $p$ was gradually increased from $10^{-2}$ to 1, the fish tend to aggregate near the bottom of the tank in the centre.
-
-
-Notably, the further increase of $p$ would change the density distribution of the fish in a different fashion. As the value of $p$ increased from 1 to 10, the fish are more frequently appear at higher $r$ and $z$ values. Such non-monotonic behaviour could be understood by carefully examining the effective interaction potential $u(r)$ of the agents.
-Typically, the interaction potential would constrain the agents to form a coherent cluster, to mimic the observed structure of the fish group (section~\ref{section:analysis-structure-3d}). And the size of the cluster would decrease, with the increase of $p$, as shown in Fig.~\ref{fig:fish-cluster}.
-For smaller clusters, they would be able to explore the ``corner'' of the fish tank, where both $r$ value and $z$ value are high.
-On the other hand, the large clusters would have to deform its shape, paying extra energy cost, so that they could enter the corner region.
-Therefore, the agents with stronger pairwise interaction would explore more space in the tank, presenting higher chance to appear in regions where $r$ and $z$ values are high.
-
-
-\marginpar{
-\centering
-\includegraphics[width=\marginparwidth]{fish-cluster}
-\captionof{figure}{The parameter $p$ controls the size of the group.}
-\label{fig:fish-cluster}
-}
-
-
 \begin{SCfigure}
   \includegraphics[width=\linewidth]{density-interaction}
   \caption[The effect of the pairwise interaction on the density distribution]{
@@ -339,22 +324,32 @@ Therefore, the agents with stronger pairwise interaction would explore more spac
   \label{fig:dist-interaction}
 \end{SCfigure}
 
+The effect of the pairwise interaction of the fish on the density distribution is shown in Fig.~\ref{fig:dist-interaction}, where we fixed the value of $q$ (which controls the strength of the fish-hole interaction) to be $0$, and set $\beta=0.1$. These parameters correspond to the condition where the effects of both the gravity and the holes could be ignored.
+When the value of $p$ is small, so that the interaction among the agents are weak, the system behaves like ideal gas particles under gravity, described by Eq.~\ref{fig:dist-interaction}. When the value of $p$ was gradually increased from $10^{-2}$ to 1, the fish tend to aggregate near the bottom of the tank in the centre.
+
+\marginpar{
+\centering
+\includegraphics[width=\marginparwidth]{fish-cluster}
+\captionof{figure}{The parameter $p$ controls the size of the group.}
+\label{fig:fish-cluster}
+}
+
+
+
+Notably, the further increase of $p$ would change the density distribution of the fish in a different fashion. As the value of $p$ increased from 1 to 10, the fish are more frequently appear at higher $r$ and $z$ values. Such non-monotonic behaviour could be understood by carefully examining the effective interaction potential $u(r)$ of the agents.
+Typically, the interaction potential would constrain the agents to form a coherent cluster, to mimic the observed structure of the fish group (section~\ref{section:analysis-structure-3d}). And the size of the cluster would decrease, with the increase of $p$, as shown in Fig.~\ref{fig:fish-cluster}.
+For smaller clusters, they would be able to explore the ``corner'' of the fish tank, where both $r$ value and $z$ value are high.
+On the other hand, the large clusters would have to deform its shape, paying extra energy cost, so that they could enter the corner region.
+Therefore, the agents with stronger pairwise interaction would explore more space in the tank, presenting higher chance to appear in regions where $r$ and $z$ values are high.
+
+
+
 
 
 \subsection{Comparison to Experimental Data}
 
-
-We used the energy term in Eq.~\ref{eq:model-density} to simulate the equilibrium density profile of the agents, and compare the results with our experimental data obtained in chapter~\ref{chapter:fish_3d}. By tuning the parameters, typically the values of $\beta$, $q$, and $p$ manually, we can generated simulation result that is similar to the experimental results. The fitting result is shown in Fig.~\ref{fig:model-density}.
-
-For the distribution of one fish in the tank, the fitting results suggests an effective inverse temperature of $\beta = 200$, and the strength of the fish-hole interaction of $a = 2\times 10^{-10}$, as presented in Fig.~\ref{fig:model-density} (a) and (b). By decreasing the value of $\beta$ to 45, and incorporating the fish-fish interaction with $p = 10$, we could model the density profile of 2 fish, as shown in Fig.~\ref{fig:model-density} (c) and (d). There is a slight mismatch between the experiment and the model, which might related to the non-equilibrium nature of the fish, which is absent in our Monte-Carlo simulation.
- 
- To match the density profile of 50 fish, the value of $\beta$ needs to be further decreased to 0.1, while keeping the $q$ and $p$ values unchanged. However, the match between the experimental data and the model is poor. In fact, the bimodal distribution of $f_Z(z)$ of 50 fish, shown in Fig.~\ref{fig:model-density} (f), indicates the presence of multiple states, as reported in section~\ref{section:change-states-3d}. To take multiple states into consideration, we will need to overlay simulation results from multiple systems with different parameters. Such a complex simulation is beyond the scope of this chapter.
-  
-Even though the fitting between the experimental density distribution and that from the Monte-Carlo simulation is not very good, the result is in accordance with our previous discussion in chapter~\ref{chapter:fish_2d} and \ref{chapter:fish_3d}. Namely, when the number of fish is small, the interaction between the fish and the environment (gravity and holes) is significant. Such importance could be translated to a high $\beta$ value in our model. For a group of 50 fish, the fish-fish interaction dominates their behaviour, corresponding to a low $\beta$ value.
-
-
 \begin{SCfigure}
-  \includegraphics[width=\linewidth]{model-density}
+  \includegraphics[width=0.9\linewidth]{model-density}
   \caption[Comparing the density distribution of the fish and the model]{
   The comparison of the density distribution of fish with the model described by Eq.~\ref{eq:model-density}. The data points represent the experiment measurements, and the solid lines were calculated from the Monte-Carlo simulation.
   (a): the distribution the $z$ from 1 fish.
@@ -366,6 +361,16 @@ Even though the fitting between the experimental density distribution and that f
   }
   \label{fig:model-density}
 \end{SCfigure}
+
+We used the energy term in Eq.~\ref{eq:model-density} to simulate the equilibrium density profile of the agents, and compare the results with our experimental data obtained in chapter~\ref{chapter:fish_3d}. By tuning the parameters, typically the values of $\beta$, $q$, and $p$ manually, we can generated simulation result that is similar to the experimental results. The fitting result is shown in Fig.~\ref{fig:model-density}.
+
+For the distribution of one fish in the tank, the fitting results suggests an effective inverse temperature of $\beta = 200$, and the strength of the fish-hole interaction of $a = 2\times 10^{-10}$, as presented in Fig.~\ref{fig:model-density} (a) and (b). By decreasing the value of $\beta$ to 45, and incorporating the fish-fish interaction with $p = 10$, we could model the density profile of 2 fish, as shown in Fig.~\ref{fig:model-density} (c) and (d). There is a slight mismatch between the experiment and the model, which might related to the non-equilibrium nature of the fish, which is absent in our Monte-Carlo simulation.
+ 
+ To match the density profile of 50 fish, the value of $\beta$ needs to be further decreased to 0.1, while keeping the $q$ and $p$ values unchanged. However, the match between the experimental data and the model is poor. In fact, the bimodal distribution of $f_Z(z)$ of 50 fish, shown in Fig.~\ref{fig:model-density} (f), indicates the presence of multiple states, as reported in section~\ref{section:change-states-3d}. To take multiple states into consideration, we will need to overlay simulation results from multiple systems with different parameters. Such a complex simulation is beyond the scope of this chapter.
+  
+Even though the fitting between the experimental density distribution and that from the Monte-Carlo simulation is not very good, the result is in accordance with our previous discussion in chapter~\ref{chapter:fish_2d} and \ref{chapter:fish_3d}. Namely, when the number of fish is small, the interaction between the fish and the environment (gravity and holes) is significant. Such importance could be translated to a high $\beta$ value in our model. For a group of 50 fish, the fish-fish interaction dominates their behaviour, corresponding to a low $\beta$ value.
+
+
 
 \subsection{Limitation of the Model}
 
@@ -382,6 +387,17 @@ Intuitively, the ordered movement is a special state comparing with its random c
 
 \subsection{The Vicsek Model}
 \label{section:vicsek-model}
+
+\begin{SCfigure}
+  \includegraphics[width=\linewidth]{phase-vicsek}
+  \caption[The phase behaviour of the Vicsek model]{
+  The phase behaviour of the Vicsek model. The simulation was performed at different state points, with different density and noise values. The total number of states was $50 \times 50 = 2500$. For each state point, 200 agents were simulated, whose speed was fixed at 0.1. The system was updated $2\times10^4$ steps to reach steady state. The polarisation of the system was recorded in the subsequent $2\times10^4$ steps.
+  (a) The time-average polarisation at different states.
+  (b) The standard deviation of the polarisation at different states. This value represents the susceptibility of the system.
+  The dashed line in both subplots indicates a linear relationship between the transitional density and noise. The end of the dashed line \emph{does not} imply the presence of a critical point.
+  }
+  \label{fig:phase-vicsek}
+\end{SCfigure}
 
 
 The Vicsek model is a very simple active matter model for the dynamics of the animals \cite{vicsek1995}. Essentially, the agents align with nearby neighbours in the model, leading to the ordered movement.
@@ -417,16 +433,6 @@ We use the symbol \gls{opvicsek} to represent the velocity updating rule of the 
 The important parameters for the Vicsek model are the noise ($\eta$) and the number density ($\rho$), when we set the interaction range to one. The noise controls the randomness of the system, and the density controls the neighbour set $S_{i}$ for particle $i$. In addition to $\rho$ and $\eta$, another contributing parameter is the speed of the agents ($v_0$ in Eq.~\ref{eq:vicsek}), but its effect is less significant than $\eta$ and $\rho$. Therefore, we will only focus on $\eta$ and $\rho$.
 
 
-\begin{SCfigure}
-  \includegraphics[width=\linewidth]{phase-vicsek}
-  \caption[The phase behaviour of the Vicsek model]{
-  The phase behaviour of the Vicsek model. The simulation was performed at different state points, with different density and noise values. The total number of states was $50 \times 50 = 2500$. For each state point, 200 agents were simulated, whose speed was fixed at 0.1. The system was updated $2\times10^4$ steps to reach steady state. The polarisation of the system was recorded in the subsequent $2\times10^4$ steps.
-  (a) The time-average polarisation at different states.
-  (b) The standard deviation of the polarisation at different states. This value represents the susceptibility of the system.
-  The dashed line in both subplots indicates a linear relationship between the transitional density and noise. The end of the dashed line \emph{does not} imply the presence of a critical point.
-  }
-  \label{fig:phase-vicsek}
-\end{SCfigure}
 
 The behaviour of the Vicsek model is presented in Fig.~\ref{fig:phase-vicsek} (a), characterised by the polarisation ($\Phi$) as the order parameter. In the low noise and high density region, the system exhibits ordered behaviour. For the low density and high noise simulations, the agents move randomly with a small $\Phi$ value. Figure~\ref{fig:phase-vicsek} (b) shows the standard deviation of the polarisation from the simulation, whose maximum value indicates the transition between the ordered phase and the disordered phase. In the dilute region, where $\rho < 1$, the transitional density \gls{rhoc} and noise \gls{etac} have a linear relationship, as indicated by the dashed line in Fig.~\ref{fig:phase-vicsek}. Such linear relationship is in accordance with previous 3D numerical simulation results \cite{puzzo2019}.
 
@@ -440,7 +446,19 @@ The excess persistence length is expected, as the real fish do not change their 
 \subsection{The Effect of Inertia}
 \label{section:model-vicsek-inertia}
 
-One heuristic approach to modify the Vicsek model, so that the model could better match the behaviour of the fish, is to remedy the extreme zigzag movement of the agents in the high noise region. To do so, we could simply let the agents to remember their previous orientations, by rewriting the equation of motion as the following,
+\begin{SCfigure}
+  \includegraphics[width=\linewidth]{vicsek-inertia}
+  \caption[The effect of inertia in the Vicsek model]{
+	The effect of inertia, noted as $\alpha$ in Eq.~\ref{eq:vicsek-inertia}, for a single agent in the Vicsek model.
+	(a) The relaxation time of the orientation as a function of the orientation noise ($\eta$). The dashed line shows a polynomial fit, where we assume $\tau_\mathbf{o} \sim \eta^{-2}$ \cite{ginelli2016}. For the Vicsek model in the noisy region ($\eta > 0.9$), the relaxation time is hard to measure because of its small numerical value.
+	(b) The trajectories of agents with different $\alpha$ values.
+  }
+  \label{fig:vicsek-inertia}
+\end{SCfigure}
+
+
+One heuristic approach to modify the Vicsek model, so that the model could fit the experimental result, is to remedy the extreme zigzag movement of the agents in the high noise region. For a real zebrafish, we expect its swimming pattern to be inertial, since the Reynold number for an adult zebrafish is around 20000 \cite{danos2012}. To incorporate an effective inertia, we could simply let the agents to remember their previous orientations, by rewriting the equation of motion as the following,
+
 
 \begin{equation}
 \begin{split}
@@ -456,21 +474,13 @@ One heuristic approach to modify the Vicsek model, so that the model could bette
 \label{eq:vicsek-inertia}
 \end{equation}
 
+
 \noindent which is effectively a linear mixture of the Vicsek interaction, noted as $\mathcal{V}(\mathbf{v}_i^t)$, and the original velocity ($\mathbf{v}_i^t$).
 The parameter \gls{alpha} controls the ratio between the moving direction from Vicsek interaction to the existing moving direction, and we call it the \emph{inertia}.
 When $\alpha$ is zero, the model is reduced to the Vicsek model.
 When $\alpha$ is one, all the agents will travel ballistically without any interaction. The trajectories of a single agent with different $\alpha$ values are presented in Fig.~\ref{fig:vicsek-inertia}(b). The agent with moderate $\alpha$ value presents a smooth trajectory, as expected.
 Figure~\ref{fig:vicsek-inertia} (a) shows the scaling relationship between the orientational relaxation time and the noise, where $\tau_\mathbf{o} \sim \eta^{-2}$. Such relationship is in accordance with previous proposals \cite{ginelli2016, puzzo2019}. The incorporation of the ``inertia'' ($\alpha$) does not change such the scaling relationship, and it only slows down the relaxation of the orientation of the agents.
 
-\begin{SCfigure}
-  \includegraphics[width=\linewidth]{vicsek-inertia}
-  \caption[The effect of inertia in the Vicsek model]{
-	The effect of inertia, noted as $\alpha$ in Eq.~\ref{eq:vicsek-inertia}, for a single agent in the Vicsek model.
-	(a) The relaxation time of the orientation as a function of the orientation noise ($\eta$). The dashed line shows a polynomial fit, where we assume $\tau_\mathbf{o} \sim \eta^{-2}$ \cite{ginelli2016}. For the Vicsek model in the noisy region ($\eta > 0.9$), the relaxation time is hard to measure because of its small numerical value.
-	(b) The trajectories of agents with different $\alpha$ values.
-  }
-  \label{fig:vicsek-inertia}
-\end{SCfigure}
 
 
 The behaviour of the Vicsek model with the inertia is shown in Fig.~\ref{fig:phase-vicsek-inertia}. The structure of the phase diagram\marginfootnote{
@@ -510,12 +520,16 @@ We also calculated the connected correlation function ($C_\mathbf{o}(r)$, Eq.~\r
   \caption[Comparing the dynamics of the zebrafish with the Vicsek model simulation]{
   Comparing the dynamics of the zebrafish with the Vicsek model simulation.
   (a) The relationship between the rescaled persistence length $\kappa$ and the polarisation $\Phi$. The scatters represent different experimental observations. The solid line represent the simulation result with Vicsek model ($v=0.1, \alpha=0, \rho=1, 0.18 \le \eta \le 0.9$). The thick solid line with colour represent the simulation result of the Vicsek model with inertia ($v=0.1, \alpha=0.63, \rho=1, 0.65 \le \eta \le 1$). The brightness of the colour represent the standard deviation of the polarisation in different states.
-  (b) The connected correlation function $C_\mathbf{o}(r)$
+  (b) The connected correlation function $C_\mathbf{o}(r)$, calculated from the experimental data (scatters) and the simulation (solid line) in the low $\kappa$ region.
+  (c) The connected correlation function $C_\mathbf{o}(r)$, calculated from the experimental data (scatters) and the simulation (solid line) in the high $\kappa$ region.
   }
   \label{fig:model-dynamics}
 \end{SCfigure}
 
 Our model for the dynamics of the fish revealed the importance of the inertia. As mentioned in section~\ref{section:vicsek-model} and shown in Fig.~\ref{fig:model-dynamics} (a), the Vicsek model without inertia, whose $\alpha$ value equals zero, could not fit the experimental result. The mismatch between the model is especially significant in the low $\kappa$ region where the noise term is high, which is related to the unrealistic zig-zag movement of the Vicsek agents (Fig.~\ref{fig:vicsek-inertia}). The increasing of the $\alpha$ value shifted the simulation result to the high $\kappa$ region, that matches the experimental result.
+
+
+The simplicity of our model is important. The good fit between the simulation results and the experimental results indicates that the order of the dynamics (the polarisation) for the zebrafish group can be described the four parameters (the density, the inertia, the speed, and the noise) in the model. This is because the dynamics of the fish group is dominated by their effective alignment interaction. For a group of 50 fish, their changing states can be captured by the noise parameter ($\eta$ in Eq.~\ref{eq:vicsek}), as shown in Fig.~\ref{fig:model-dynamics} (a), suggesting the observed zebrafish behaviour is universal.
 
 
 It is also important to point out that our model suggests that the fish were effectively crossing the between the ordered phase and the disordered phase (see the horizontal bars in Fig.~\ref{fig:phase-vicsek-inertia}). The location of the boundary, for 50 agents, is located at $\kappa \sim 2$, where the susceptibility of the polarisation took its maximum, as shown in Fig.~\ref{fig:model-dynamics} (a).
@@ -527,7 +541,7 @@ Such choice is understandably beneficial, because staying in the disordered stat
 Finally, it is important to address the several limitations of our simulation, even though the fitting is visually good. First of all, the agents in the Vicsek model have a constant speed ($v$ in Eq.~\ref{eq:vicsek}), and this is different from the zebrafish. In addition, the only interaction between the agents is the alignment, while we could see evidence for the repulsive interaction and attractive interaction amongst the fish in section~\ref{section:analysis-structure-2d} and \ref{section:analysis-structure-3d}. Finally, the inhomogeneity of the density inside the tank is ignored in the Vicsek model, and the agents was enclosed in a periodic boundary, rather than a fish tank.
 
 \vfill
-\newpage
+\pagebreak
 
 \begin{adjustwidth}{0cm}{-5cm}
 \begin{tcolorbox}[

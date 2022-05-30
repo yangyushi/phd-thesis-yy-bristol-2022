@@ -138,7 +138,7 @@ For instance, the MIPS-like behaviour, where a dilute region and a dense region 
 In addition, European Starlings exhibit ordered movement \cite{cavagna2010}, while the midges exhibits the disordered movement \cite{attanasi2014pcb}. From a group of zebrafish, we also observed the order-disorder transition \cite{yang2021pcb}, which will be discussed in chapter~\ref{chapter:fish_analysis}.
 
 
-There is an implicit paradigm to study the active matter system in the scientific community \cite{allen2017}, which includes three steps. Firstly we observe the behaviour of real animals and calculate their behavioural features. Then we simplify the animals with a mathematical model that captured all the essential features. Finally we study the model either numerically or analytically, to have a comprehensive understanding. An example of this approach, was recently demonstrated by \citeauthor{bull2021ep3} with a trilogy\marginfootnote{
+There is an implicit paradigm to study the active matter system in the scientific community \cite{allen2017}, which includes three steps. Firstly we observe the behaviour of real animals and calculate their behavioural features. Then we simplify the animals with a mathematical model that captured all the essential features \cite{sumpter2012}. Finally we study the model either numerically or analytically, to have a comprehensive understanding. An example of this approach, was recently demonstrated by \citeauthor{bull2021ep3} with a trilogy\marginfootnote{
 The authors explained their work in a serious of helpful tweets \cite{prakash2021}. A tweet is a text snippet people posted on a website named ``Twitter''.
 }
 on the movement of cilia \cite{bull2021ep1, bull2021ep2, bull2021ep3}. It is important to stress that the research on active matter does not always follow the order of ``observation, model, and theory'', even though we will review the literature in such order.
@@ -308,7 +308,7 @@ If we compare the correlation functions from both Fig.~\ref{fig:corr-examples} (
 Orientational correlation functions are widely applied in the study of animal behaviour, particularly for systems where alignment is the dominating interaction. For instance, the orientational correlation functions of midges \cite{attanasi2014pcb, ni2015epj}, fish \cite{yang2021pcb}, and birds \cite{cavagna2010} have been  reported, presenting short or long ranged orientational correlations.
 
 This function is important also because its integral, $\int C_\mathbf{o}(r) dr$, is related to the \emph{susceptibility} (\gls{chi}) of the animal orientation under an external perturbation, under two assumptions. Firstly, the alignment interaction should dominate the animal behaviour, so that the energy\marginfootnote{
-The energy ($E: \mathbb{R}^{N \times d} \rightarrow \mathbb{R}$) is a function that maps the \gls{dim} dimensional orientations of $N$ individuals to a probability weight. It is more likely to observe an animal group with low energy.\\
+The ``energy'' in Eq.~\ref{eq:spin-energy} ($E: \mathbb{R}^{N \times d} \rightarrow \mathbb{R}$) is effectively a function that maps the \gls{dim} dimensional orientations of $N$ individuals to a probability weight. It is more likely to observe an animal group with a lower energy value.\\
 Notice the similarity of Eq.~\ref{eq:spin-energy} to the energy function (the \emph{Hamiltonian}) to those in magnetic systems, for instance the Ising model and the spin glass \cite{castellani2005, herbut2007}.
 } of the system \gls{e} follows,
 
@@ -348,9 +348,19 @@ Beyond the determination of relaxation time, the ACF is important because its in
 \label{section:intro-corr-special}
 
 
-It is possible to craft novel correlation functions, like the $g(r)$, to study the structural features of animal groups. For example, \citeauthor{ballerini2008pnas} studied the distribution anisotropy of the neighbours of each bird in a group of European starlings \cite{ballerini2008pnas}. This anisotropy factor, noted as \gls{gamma} in \cite{ballerini2008pnas}, could be used to construct a correlation function $C_\gamma(n)$, with different neighbours rank\marginfootnote{
-	For a bird, its nearest neighbour has the rank 1, the next nearest neighbour has the rank 2.
-}  (\gls{nr}) values, shown in Fig.~\ref{fig:corr-animal}(a). This function \gls{cgamman} presents the decay of $\gamma$ with increasing $n$ values, and leads to a remarkable conclusion: a bird in a flocking group interacts with 7 neighbours on average \cite{ballerini2008pnas, cavagna2014}, regardless of its distances to these neighbours.
+It is possible to craft novel correlation functions, like the $g(r)$, to study the structural features of animal groups. For example, \citeauthor{ballerini2008pnas} studied the distribution anisotropy of the neighbours of each bird in a group of European starlings \cite{ballerini2008pnas}. This anisotropy factor, noted as \gls{gamma} in \cite{ballerini2008pnas}, could be used to construct a correlation function $C_\gamma(n)$, with different neighbours rank (\gls{nr}) values\marginfootnote{
+For a bird, its nearest neighbour has the rank 1, the next nearest neighbour has the rank 2.
+
+The value of $\gamma$ for the $n$th nearest neighbour is calculated for the entire animal group, in order to quantify the fact, that the neighbours are less likely to be distributed in the moving direction of the group.
+
+Specifically,
+$\gamma(n) = \mathbf{w}(n) \cdot \mathbf{P}$.
+The vector $\mathbf{w}(n)  \in \mathbb{R}^{m \times 3}$ is the eigenvector of the matrix
+$\mathbf{M}(n) = \mathbf{u}(n)^\top \cdot \mathbf{u}(n)$, and $\mathbf{w}(n)$ corresponds to the smallest eigenvalue.
+The vector $\mathbf{u}(n) \in \mathbb{R}^{m \times 3}$ stores all the unit vectors pointing from all $m$ birds in the group, to their $n$th closest neighbours.
+The vector $\mathbf{P} \in \mathbb{R}^3$ is the polarisation order parameter defined in eq.~\ref{eq:pol}.
+}, shown in Fig.~\ref{fig:corr-animal}(a).
+This function \gls{cgamman} presents the decay of $\gamma$ with increasing $n$ values, and leads to a remarkable conclusion: a bird in a flocking group interacts with 7 neighbours on average \cite{ballerini2008pnas, cavagna2014}, regardless of its distances to these neighbours.
 This behavioural feature is called a \emph{topological} interaction, as opposed to a metric interaction based on physical distances. This special correlation function was also used by \citeauthor{ling2019nc} to study the changing behavioural rules of jackdaw flocks \cite{ling2019nc}.
 
 
@@ -366,7 +376,7 @@ Examples of special correlation functions to characterise animals.
   \label{fig:corr-animal}
 \end{SCfigure}
 
-The orientational cross-correlation function \gls{cijt} is another tool to study animals, proposed by \citeauthor{nagy2010} \cite{nagy2010}. It is essentially the correlation between the orientations of two individuals (labelled by $i$ and $j$) in time. Such function revealed the leader-follower relationship among the individuals in the group. An example is plotted in Fig.~\ref{fig:corr-animal} (b), where a following bird would try to align its orientation to a leader. Because of the behavioural inertia of the birds, there will be a slight lag time, for the follower to adjust its orientation. In other words, the follower will try to align with the leader ``now'', but the alignment is not instantaneous, and it could only happen in the ``future''. This lag time could be captured by the orientational cross-correlation function
+The correlation function \gls{cijt} is another tool to study animals, proposed by \citeauthor{bumann1993} \cite{bumann1993} in 1990s, and revisited by \citeauthor{nagy2010} in 2010 \cite{nagy2010}. It is essentially the  orientational cross-correlation between two individuals (labelled as $i$ and $j$) in time. Such function revealed the leader-follower relationship among the individuals in the group. An example is plotted in Fig.~\ref{fig:corr-animal} (b), where a following bird would try to align its orientation to a leader. Because of the behavioural inertia of the birds, there will be a slight lag time, for the follower to adjust its orientation. In other words, the follower will try to align with the leader ``now'', but the alignment is not instantaneous, and it could only happen in the ``future''. This lag time could be captured by the orientational cross-correlation function
 
 \begin{equation}
 	C_{ij}(t) = \langle

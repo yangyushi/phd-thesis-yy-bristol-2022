@@ -31,18 +31,15 @@ The linkage is remarkable, because it bridges the gap between the biological fea
 
 \subsection{Mutant Fish}
 
-The {\mf} have a nonsense mutation, i.e. in the mutants the Coll1a2 protein is no longer produced. The mutant fish were obtained from European Zebrafish Resource Centre and bred in the fish facility in the university of Bristol \cite{lawrence2018}. Two generations of mutant fish were crossed by Elizabeth A. Lawrence and Erika Kague respectively from the university of Bristol. The wildtype zebrafish were also crossed and bred in the same time, so that the two groups sharing the same growth condition can be compared. The two different generations of ``mutant + wildtype'' combinations, crossed at different time points, exhibits consistent behavioural features. The fish were observed when they were 40 days post fertilisation (\gls{dpf}), by which point they are relatively skeletally mature. We carried out the observation repeatedly, until the fish were about 120 dpf.
+The {\mf} have a nonsense mutation, i.e. in the mutants the Coll1a2 protein is no longer produced. The mutant fish were obtained from European Zebrafish Resource Centre and bred in the fish facility in the university of Bristol \cite{lawrence2018}. Two generations of mutant fish were crossed by Elizabeth A. Lawrence and Erika Kague respectively from the university of Bristol. The wildtype zebrafish were also crossed and bred in the same time, so that the two groups sharing the same growth condition can be compared. For each generation, the number of wt fish is $\sim$ 50, and the number of mutant fish is $\sim$ 30. 
+
+The two different generations of ``mutant + wildtype'' combinations, crossed at different time points, exhibits consistent behavioural features. The fish were observed when they were 40 days post fertilisation (\gls{dpf}), by which point they are relatively skeletally mature. We carried out the observation repeatedly, until the fish were about 120 dpf.
 
 \subsection{Experiments and Analysis}
 
-Both the mutant fish and the wildtype fish were kept in aquarium tanks in a separate room, without the observation equipment. For the one fish experiment, we took 10 fish to the observation room, and recorded the movement of each fish individually for 10 minutes at a frequency of 15 frames per second. We then circulate the water in the observation tank for 5 minutes to remove possible olfactory responses \cite{kalueff2013}, then started recording for another fish. For many fish experiments, we transfered 25 fish to the observation tank, waited 10 minutes, and then started the observation.
+Both the mutant fish and the wildtype fish were kept in aquarium tanks in a separate room, without the observation equipment. The husbandry of the fish is introduced in section~\ref{section:apprautus_2d}.
 
-The 3D fish tracking apprautus, introduced in chapter~\ref{chapter:fish_3d}, was used to record the 3D coordinates of the fish.
-These coordinates were then linked into trajectories following the methods discussed in chapter~\ref{chapter:fish_analysis}. The trajectories were analysed following the methods in chapter~\ref{chapter:fish_analysis}, yielding the results that could be fitted with the modified Vicsek model with inertia (chapter~\ref{chapter:fish_model}).
-
-
-\section{The Behaviour of A Single Mutant Fish}
-\label{section:mutant-1-fish}
+For the one-fish experiment, we randomly took 10 fish from their living tank, to the observation room, and recorded the movement of each fish individually for 10 minutes at a frequency of 15 frames per second. We then circulate the water in the observation tank for 5 minutes to remove possible olfactory responses \cite{kalueff2013}, then started recording for another fish. We carried out the experiment for the two generations of the mutant and wildtype fish, therefore tested 40 fish in total.
 
 \marginpar{
 \centering
@@ -52,6 +49,16 @@ These coordinates were then linked into trajectories following the methods discu
 }
 \label{fig:mutant-trajs}
 }
+
+For the many-fish experiments, we randomly selected 25 fish, and transferred them to the observation tank. We waited 10 minutes for the group to get familiar with the new environment, and then started recording their movement. We carried out the experiment for the two different generations, and we tested 4 groups, 100 fish in total.
+
+The 3D fish tracking apprautus, introduced in chapter~\ref{chapter:fish_3d}, was used to record the 3D coordinates of the fish.
+These coordinates were then linked into trajectories following the methods discussed in chapter~\ref{chapter:fish_analysis}. The trajectories were analysed following the methods in chapter~\ref{chapter:fish_analysis}, yielding the results that could be fitted with the modified Vicsek model with inertia (chapter~\ref{chapter:fish_model}).
+
+
+\section{The Behaviour of A Single Mutant Fish}
+\label{section:mutant-1-fish}
+
 
 The movement of one single fish differs significantly between the wt fish and the {\mf}, as shown in Fig.~\ref{fig:mutant-1}.
 For all the different fish individuals, they tend to move near the surface of the tank, as seen in Fig.~\ref{fig:mutant-1} (a).
@@ -216,13 +223,14 @@ Biologically, the reason for the behavioural difference might related to the com
 	The behaviour of 25 zebrafish described by $l_\mathrm{nn}$ and $l_p$.
 	(a) The changing macroscopic states of the fish projected on a 2D state diagram spanned by $l_\mathrm{nn}$ and $l_p$. The colour of the scatters represents the age of the fish.
 	(b) The changing states of the fish described by the reduced persistence length $\kappa = l_\mathrm{nn} / l_p$, which correlates with the polarisation ($\Phi$) of the group. The correlation is reproduced with a Vicsek model with inertia (section~\ref{section:model-vicsek-inertia}).
+	The brightness of the scatters indicates the age of the fish, illustrated by the colour bars.
   }
   \label{fig:phase-mutant}
 \end{SCfigure}
 
 \vfill
 
-\begin{adjustwidth}{0cm}{-5cm}
+\begin{adjustwidth}{-5cm}{0cm}
 \begin{tcolorbox}[
 title=Summary of Chapter~7,
 fonttitle=\sffamily\Large,

@@ -239,9 +239,10 @@ To reduce the complexity, we restrain the particles to have a maximum movement b
   \includegraphics[width=\linewidth]{linking-sim}
   \caption[Comparing two linking algorithms]{
   The linking process to get trajectories from positions. The grey solid scatters represents the location ($\{\mathbf{x}\}$) of simulated particles. The coloured lines represent the linked trajectories. Some positions were discarded (rendered as empty scatters) randomly to mimic the experimental locations.
-  Left: the ground truth.
-  Middle: the result with the active linking algorithm.
-  Right: the result with the equilibrium linking algorithm.
+  (a) The ground truth.
+  (b) The result with the active linking algorithm.
+  (c) the result with the equilibrium linking algorithm.
+  (d) The distribution of trajectory length values for different linking algorithms. Better algorithms are expected to produce longer trajectories.
   }
   \label{fig:link-sim}
 \end{SCfigure}
@@ -328,7 +329,9 @@ To answer the first question, we can calculate the nearest neighbour distance of
 
 \noindent where \gls{dij} is the pairwise distance of fish $i$ and $j$, and $N$ is the total amount of fish. The average nearest neighbour distance of a group could serve as a measure of the cohesiveness of the fish. The group with smaller $l_\textrm{nn}$ value appear more cohesive.
 
-To measure the size of the group, we can measure area (for 2D data) or the volume (for 3D data) of the \emph{convex hull}, constructed from the coordinates of the fish. The convex hull is the smallest subset of the space, which contains all line segments connected by all pairs of points \cite{berg2000}. Intuitively, the convex hull is the smallest polygon (or polyhedron for 3D coordinates) that encloses all coordinates. An example of the convex hull constructed from 50 fish were provided in Fig.~\ref{fig:structure-2d}(a). The area ($A_\mathrm{ch}$) or the volume ($V_\mathrm{ch}$) of the hull can be transformed into a lengthscale, termed as the \emph{effective convex hull diameter} \gls{lch}, which is defined as
+To measure the size of the group, we can measure area (for 2D data) or the volume (for 3D data) of the \emph{convex hull}, constructed from the coordinates of the fish. The convex hull is the smallest subset of the space, which contains all line segments connected by all pairs of points \cite{berg2000}. Intuitively, the convex hull is the smallest polygon (or polyhedron for 3D coordinates) that encloses all coordinates. An example of the convex hull constructed from 50 fish were provided in Fig.~\ref{fig:structure-2d}(a). The area ($A_\mathrm{ch}$) or the volume ($V_\mathrm{ch}$) of the hull can be transformed into a lengthscale\marginfootnote{
+To describe the completely geometry of the group, we need to consider more details, since a group of fish does not always present the shape of a sphere. These extra details include the aspect ratio, or the thickness. By assuming the group shape to be spherical, we can use just one number to describe it. Such simplified description can be thought of as a first order approximation.
+}, termed as the \emph{effective convex hull diameter} \gls{lch}, which is defined as
 
 \begin{equation}
 \begin{split}
@@ -590,7 +593,7 @@ In addition to the persistence length, we can also measure the correlation lengt
 
 \section{The Behaviour of 50 Zebrafish in 2D}
 
-The coordinates of 50 zebrafish in a quasi-2D experiment, obtained with the methods introduced in chapter~\ref{chapter:fish_2d}, were linked into trajectories, from which the behaviour of these fish were analysed.
+The coordinates of 50 zebrafish in a quasi-2D experiment, obtained with the methods introduced in chapter~\ref{chapter:fish_2d}, were linked into trajectories, from which the behaviour of these fish were analysed. The result for such experiment will be introduced in this section.
 
 \subsection{The Structure}
 \label{section:analysis-structure-2d}
@@ -656,11 +659,10 @@ The changing states of the fish as a function of observation time as plotted in 
 
  \begin{SCfigure}
   \includegraphics[width=\linewidth,outer]{change-states-2d-50}
-  \caption[The behavioural descriptors of 50 zebrafish]{
-  	(a): The auto--correlation function of the polarisation and average speed of the fish group.
-	(b): The auto--correlation function of the orientations of fish.
-	(c): Sequence of radial distribution functions with increasing time: at early times (top curves) the fish are clustered together so that the peak is large; at later times (bottom curves) the local density decreases and so does the peak height.
-	(d): The time evolution of the averaged {\descriptors} for 50 {\smallfish} fish. Each point corresponds to the average value in 15 minutes.
+  \caption[The changing states of 50 zebrafish in a 2D experiment]{
+	(a) Sequence of radial distribution functions, the $g(r)$,  at different time points. In early times (top curves) the fish are clustered together so that the peak is large; at later times (bottom curves) the local density decreases and so does the peak height.
+	(b) Sequence of the auto--correlation function of the orientations $C_\mathbf{o}(t)$ of the fish, at different time points.
+	(c) The time evolution of the averaged {\descriptors} for 50 {\smallfish} fish. Each point corresponds to the average value in 15 minutes.
 	The error bars illustrate the standard error values.
   }
   \label{fig:change-states-2d}
@@ -674,7 +676,7 @@ Surprisingly, the orientational relaxation time seems to correlate with the stru
 
 \section{The Behaviour of 50 Zebrafish in 3D}
 
-Following the same data processing procedure and analysis, we also studied the behaviour of 50 zebrafish in a 3D observation. In contrast to the 2D experiments where the fish were confined in a shallow water environment, now the fish can explore a 3D space enclosed by the water-air interface and a bowl-shaped tank.
+Following the same data processing procedure and analysis, we also studied the behaviour of 50 zebrafish in a 3D observation. In contrast to the 2D experiments where the fish were confined in a shallow water environment, now the fish can explore a 3D space enclosed by the water-air interface and a bowl-shaped tank. The result for one representative 3D experiment will be introduced in this section, while multiple experiments have been repeatedly carried out. The other experimental results will be discussed in section~\ref{section:universal}.
 
 \subsection{The Structure}
 \label{section:analysis-structure-3d}
@@ -740,26 +742,25 @@ It is notable that the ACFs of the structural quantities ($l_\mathrm{nn}$ and $l
 
 \begin{SCfigure}
   \includegraphics[width=\linewidth,outer]{change-states-3d-50}
-  \caption[The behavioural descriptors of 50 zebrafish]{
-  	(a): The auto--correlation function of the polarisation and average speed of the fish group.
-	(b): The auto--correlation function of the orientations of fish.
-	(c): Sequence of radial distribution functions with increasing time: at early times (top curves) the fish are clustered together so that the peak is large; at later times (bottom curves) the local density decreases and so does the peak height.
-	(d): The time evolution of the averaged {\descriptors} for 50 {\smallfish} fish. Each point corresponds to the average value in 2 minutes.
+  \caption[The changing states of 50 zebrafish in a 3D experiment]{
+	(a) Sequence of radial distribution functions, the $g(r)$,  at different time points. In early times (top curves) the fish are clustered together so that the peak is large; at later times (bottom curves) the local density decreases and so does the peak height.
+	(b) Sequence of the auto--correlation function of the orientations $C_\mathbf{o}(t)$ of the fish, at different time points.
+	(c) The time evolution of the averaged {\descriptors} for 50 {\smallfish} fish. Each point corresponds to the average value in 2 minutes.
 	The error bars illustrate the standard error values.
   }
   \label{fig:change-states-3d}
 \end{SCfigure}
 
 To study the changing states of the fish group, we separated the observation into short segments of 120s, and analyse the behaviour of the fish in these short periods separately. The results are shown in Fig.~\ref{fig:change-states-3d}. 
-For each segment, we calculated the ACF of the orientation, as shown in Fig.~\ref{fig:change-states-3d} (b), as well as the $g(r)$, as plotted in Fig.~\ref{fig:change-states-3d}(c). From these two correlation functions, we extracted the changing $\tau_\mathbf{o}$ and the changing effective attraction ($\epsilon$) values. Like the behaviour of fish during our 2D observation, the cohesion among the fish gradually decreases, indicated by the decreasing height of the peak in the $g(r)$. However, no systematic change of the $C_\mathbf{o}(t)$ were observed.
+For each segment, we calculated the ACF of the orientation, as shown in Fig.~\ref{fig:change-states-3d} (b), as well as the $g(r)$, plotted in Fig.~\ref{fig:change-states-3d}(a). From these two correlation functions, we extracted the changing $\tau_\mathbf{o}$ and the changing effective attraction ($\epsilon$) values. Like the behaviour of fish during our 2D observation, the cohesion among the fish gradually decreases, indicated by the decreasing height of the peak in the $g(r)$. However, no systematic change of the $C_\mathbf{o}(t)$ were observed.
 
-The time evolution of different structural and dynamical quantities were plotted in Fig.~\ref{fig:change-states-3d}(d). All these quantities change with time, indicating the fish were constantly changing their states.
+The time evolution of different structural and dynamical quantities were plotted in Fig.~\ref{fig:change-states-3d}(c). All these quantities change with time, indicating the fish were constantly changing their states.
 The speed is correlated with the polarisation, and the nearest neighbour distance is correlated with the effective attraction.
 
 
-These correlations were also observed from our 2D experiments in Fig.~\ref{fig:change-states-2d}. The non-linear nature of the time-evolution of fish states revealed the complexity of the behaviour of the fish, and more controlled experiments is necessary to differentiate the possible origins, that are responsible for the changing states of the fish. For instance, a sudden noise in the environment might trigger the jump in speed in Fig.~\ref{fig:change-states-3d}. But such change, termed as the spontaneous startle cascades in \cite{rosenthal2015}, might also emerge naturally without any triggering factor.
-
-
+These correlations were also observed from our 2D experiments in Fig.~\ref{fig:change-states-2d}. The non-linear nature of the time-evolution of fish states revealed the complexity of the behaviour of the fish, and more controlled experiments is necessary to differentiate the possible origins, that are responsible for the changing states of the fish. For instance, a sudden noise in the environment might trigger the jump in speed in Fig.~\ref{fig:change-states-3d}. But such change, termed as the spontaneous startle cascades in \cite{rosenthal2015}, might also emerge naturally without any triggering factor. Unfortunately, the exact cause of these sudden changes is unknown\marginfootnote{
+Ideally, I should monitor the noise level and the vibrations of the water in the tank, to study if they affect the fish behaviour or not. However, the relevant data was not recorded. Practically, the experimental setup was located in a relatively quiet room. Closing the door of a nearby room would make a noticeable noise, whose effect on the fish behaviour is unknown.
+}.
 
 
 
@@ -833,7 +834,7 @@ title=Summary of Chapter~5
 		\item The correlation length of orientation is larger than the correlation length of the speed.
 		\item The macroscopic state of the fish group changes over time, indicated by the changing quantities in Fig.~\ref{fig:change-states-3d}.
 	\end{itemize}
-	\item The change of the macroscopic states of the zebrafish groups is not totally random. The ratio between the persistence length and the nearest neighbour distance, for both 2D and 3D data, presents a robust correlation with the polarisation.
+	\item The change of the macroscopic states of the zebrafish groups is not totally random. The ratio between the persistence length and the nearest neighbour distance, for both 2D and 3D data, presents a robust correlation with the polarisation. The fact, that similar conclusions were reached from 2D and 3D experiments, is in accordance with previous studies \cite{watts2017, romenskyy2020}.
 \end{itemize}
 \end{tcolorbox}
 \end{adjustwidth}

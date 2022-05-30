@@ -112,7 +112,7 @@ Essentially, the knowledge of the camera can be represented by a $3 \times 4$ ma
 %(See appendix~\ref{chapter:multi_view} for details)
 With proper decomposition of $\mathbf{P}_{3 \times 4}$, it is also possible to calculate the location of the camera centre, illustrated as \gls{center} in Fig.~\ref{fig:locate-one}(a).
 
- Equation~\ref{eq:projection} suggests an algebraical way to calculate 3D positions from 2D features. With known \gls{proj_mat} and $(u, v)$, Eq.~\ref{eq:projection} offered 2 constrains on the values of \gls{loc3d}. Therefore, the 3D vector $\mathbf{x}$ can be uniquely determined by 2 or more ``camera + feature'' combinations.\marginfootnote{This method to find 3D location is called \emph{triangulation}.} However, the water in the fish tank will refract the light. Figure~\ref{fig:locate-one} (c) shows the effect of refraction, where the angle of incidence $\theta_1$ and the angle of refraction $\theta_2$ follows the Snell's law: $n_1 \sin\theta_1 = n_2 \sin\theta_2$. As a consequence, the calculation of $\mathbf{x}$ involves the following steps,
+ Equation~\ref{eq:projection} suggests an algebraical way to calculate 3D positions from 2D features. With known \gls{proj_mat} and $(u, v)$, Eq.~\ref{eq:projection} offered 2 constrains on the values of \gls{loc3d}. Therefore, the 3D vector $\mathbf{x}$ can be uniquely determined by 2 or more ``camera + feature'' combinations.\marginfootnote{This method to find 3D location is called \emph{triangulation}.} However, the water in the fish tank will refract the light. Figure~\ref{fig:locate-one} (c) shows the effect of refraction, where the angle of incidence $\theta_1$ and the angle of refraction $\theta_2$ follows the Snell's law: $n_1 \sin\theta_1 = n_2 \sin\theta_2$. In our experiment, we have $n_1 = 1$ for the air, and $n_2 = 1.333$ for the water. As a consequence, the calculation of $\mathbf{x}$ involves the following steps,
  
  \begin{enumerate}
  	\item For each feature $\mathbf{f}_i$, calculate its corresponding point on the water-air interface $\mathbf{a}_i$.
@@ -362,7 +362,7 @@ Such proximity should give us confidence about the algorithm on the experimental
 \begin{SCfigure}
   \includegraphics[width=\linewidth]{locate-perform}
   \caption[Performance of the 3D locating method]{
-  (a) An image of 40 zebrafish in the experimental setup.  The detected 2D features, corresponding to $(u, v)$ in Eq.~\ref{eq:reproj-err}, were plotted as white circles. The reprojected 3D tracking result, correspond to $(u_\mathbf{x}, v_\mathbf{x})$ in Eq.~\ref{eq:reproj-err}, were plotted as the red cross markers. We cropped the image to focus on the fish group. 
+  (a) An image of 40 zebrafish in the experimental setup.  The detected 2D features, corresponding to $(u, v)$ in Eq.~\ref{eq:reproj-err}, were plotted as white circles. The reprojected 3D tracking result, corresponding to $(u_\mathbf{x}, v_\mathbf{x})$ in Eq.~\ref{eq:reproj-err}, were plotted as the red cross markers. We cropped the image to focus on the fish group. 
   (b) The reconstructed 3D locations of 40 zebrafish from three different cameras.
   (c) The distribution of reprojection error $\epsilon$.
   (d) The wall time of the 3D locating algorithm for different numbers of fish. The dashed line shows the cubic fitting ($y = a x^3 + b$).
@@ -458,8 +458,14 @@ To the best of my knowledge, there is no direct proof to suggest that zebrafish 
 
 The fish-fish interaction can be probed by the distribution of the pairwise distances as well as the radial distribution function (RDF), as discussed in chapter~\ref{chapter:fish_2d}. The probability density function (PDF) of the pairwise distance of 2 fish was shown in Fig.~\ref{fig:density_3d_fish_2}, along with the corresponding PDF of the ideal gas particles uniformly distributed in the fish tank. The PDFs of the fish distance exhibit a peak around 5 cm, which is dominated by the inhomogeneity of the density distribution.
 
-The RDF of 2 fish in the system exhibits a peak around 0.03m, with a hight value of $\sim$ 100. The hight value is significantly larger, comparing with the RDF peak height of 2 fish in 2D.
-This is likely due to the depth preference of the fish that generated more significant density inhomogeneity. In other words, the fish appear to swim together in the bottom part of the tank. But the behaviour was not driven by the (biological) fish-fish attraction. Instead, these fish were just bounded together by their interaction with the environment, i.e. the depth preference. This bias induced by the depth preference can be corrected with advanced sampling method, which will be covered in chapter~\ref{chapter:fish_analysis}.
+The RDF of 2 fish in the system exhibits a peak around 0.03m, with a hight\marginfootnote{
+For the densely packed fluid, like a collection of hard spheres at volume fraction of 54\%, the peak height is $\sim 6$.
+} value of $\sim$ 100. The hight value is significantly larger, comparing with the RDF peak height ($\sim 15$) of 2 fish in 2D.
+However, this does \emph{not} imply the fish were swimming in a more cohesive fashion in 3D. Instead, 
+the RDF describes the depth preference of the fish, which generated significant density inhomogeneity, illustrated in Fig.~\ref{fig:density_2d_fish_2} (a).
+In other words, the fish appear to swim together in a more cohesive fashion in 3D, according to the numerical value of the RDF. But the cohesion was not driven by the (biological) fish-fish attraction.
+Instead, these fish were just bounded together by their interaction with the environment, i.e. the depth preference.
+This bias induced by the depth preference can be corrected with advanced sampling method, which will be covered in chapter~\ref{chapter:fish_analysis}.
 
 
 \subsection{Three Fish}
